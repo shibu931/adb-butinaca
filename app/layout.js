@@ -13,6 +13,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+      <link rel="icon" href="/assets/img/favicon.ico" />
+        </head>
       <body className={inter.className}>
         <header className='max-w-10xl mx-auto'>
           <Navbar/>
