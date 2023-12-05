@@ -4,7 +4,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import DropDownMenu from './DropDownMenu'
 import { Bars3CenterLeftIcon } from "@heroicons/react/24/outline";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const img = {
     logo:'/assets/img/logo.png',
