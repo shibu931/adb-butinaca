@@ -33,7 +33,7 @@ const ProductCard = () => {
             width={440}
           />
         </div>
-        <div className='text-gray-100 flex flex-col justify-center'>
+        <div className='text-gray-100 flex flex-col justify-center flex-grow-0'>
           <span className='text-gray-500 text-sm md:text-lg'>Research Chemicals</span>
           <h1 className='text-4xl md:text-6xl font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>{product.title}</span></h1>
           <div className="flex mt-2">
@@ -43,15 +43,13 @@ const ProductCard = () => {
           <StarIcon class="h-6 w-6 text-yellow-500" />
           <StarIcon class="h-6 w-6 text-yellow-500" />
           </div>
-          <Link
-          className='hover:underline'
-            href="/reviews"          
-          >
-            123 <span className='bg-yellow-400 font-extrabold text-transparent bg-clip-text'>Reviews</span>
-          </Link>
+          <p
+          className=''          
+          >123 <span className='bg-yellow-400 font-extrabold text-transparent bg-clip-text'>Reviews</span>
+          </p>
           <p className='text-md mt-6'>{product.description}</p>
           <p className='text-md mt-4'>{product.description2}</p>  
-          <h2 className='text-4xl mt-5 font-semibold'>&#x20AC; {product.discountedPrice}</h2>
+          <h2 className='text-4xl mt-5 font-semibold'>&#x20AC; {product.discountedPrice} <span className='text-sm'>per gm</span></h2>
           <span className='text-xl'>&#x20AC; <del>24</del></span>
           <div className="flex gap-5 flex-grow-0">
           <div className='flex mt-10'>

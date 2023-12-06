@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import DropDownMenu from './DropDownMenu'
 import { Bars3CenterLeftIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
+import Cart from './Cart'
 
 const img = {
     logo:'/assets/img/logo.png',
@@ -99,7 +100,7 @@ const navMenu =[
         slug:'hhc-shop'
     },
     {
-        title:'Sec Shop',
+        title:'Sex Shop',
         slug:'sex-shop'
     },
     {
@@ -156,14 +157,7 @@ const showNav= (e)=>{
                             height={40}
                         />
                     </Link>
-                    <Link className='' href='/cart'>
-                        <Image
-                            src={img.cart}
-                            alt='User'
-                            width={40}
-                            height={40}
-                        />
-                    </Link>
+                    <Cart/>
                 </div>
             </div>
         </nav>
