@@ -2,8 +2,8 @@ import React from 'react'
 
 const ProductDescription = ({product}) => {
   return (
-    <div className='text-white'>
-        <h2 className='text-3xl font-semibold mb-5'>Product Description</h2>
+    <div className='bg-slate-900 p-5 md:py-10 md:px-20 rounded'>
+        <h2 className='text-2xl font-semibold mb-5'>Product Description</h2>
         <div>
             {product.content}
         </div>
