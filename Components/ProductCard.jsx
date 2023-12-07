@@ -115,7 +115,7 @@ const ProductCard = () => {
           <Tab.Panels>
             <Tab.Panel><ProductDescription product={product} /></Tab.Panel>
             <Tab.Panel>
-              <div className='bg-slate-900 p-5 md:py-10 md:px-20 rounded'>
+              <div className='bg-slate-900 p-5 md:py-10 md:px-20 rounded border-gray-800 border-2'>
               <TableContainer>
                 <Table variant='simple'>
                   <Tbody>
