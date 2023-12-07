@@ -27,7 +27,7 @@ export default function Cart() {
               leaveTo="opacity-0 translate-y-1"
             >
               <Popover.Panel className="absolute right-0 z-10 mt-3 w-screen max-w-sm transform px-4 sm:px-0 lg:max-w-sm">
-                <div className="overflow-hidden rounded-lg shadow-gray-800 bg-gradient-to-br from-violet-800 to-purple-600 shadow-md ring-1 ring-black/5">
+                <div className="overflow-hidden rounded-lg bg-gradient-to-br from-violet-800 to-purple-600 shadow-2xl ring-1 ring-black/5">
                   <div className="relative grid gap-8 p-7 text-slate-200">
                     <ul className=''>
                     <li className='flex mb-4'>
