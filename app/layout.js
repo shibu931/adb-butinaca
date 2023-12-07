@@ -16,11 +16,11 @@ export default function RootLayout({ children }) {
       <head>
       <link rel="icon" href="/assets/img/favicon.ico" />
         </head>
-      <body className={inter.className}>
-        <header className='max-w-10xl mx-auto'>
+      <body className={`inter.className max-w-10xl mx-auto`}>
+        <header>
           <Navbar/>
         </header>
-        <main className='max-w-10xl mx-auto'>
+        <main>
           {children}
         </main>
         <footer>
