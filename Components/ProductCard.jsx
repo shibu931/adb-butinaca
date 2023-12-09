@@ -75,7 +75,7 @@ const ProductCard = () => {
               <div className='bg-gray-200 text-black text-2xl w-10 h-10 text-center font-bold pt-1'>{item}</div>
               <button className='bg-violet-800 text-3xl w-10 h-10 text-center font-extrabold' onClick={incrementItem} >+</button>
             </div>
-            <button className='py-1 px-4 bg-gradient-to-b mt-10 font-bold from-violet-800 to-purple-500'>
+            <button className='py-1 px-4 bg-gradient-to-b mt-10 font-bold from-violet-800 to-purple-500 hover:from-violet-900 hover:to-purple-600'>
               Add To Cart
             </button>
           </div>
