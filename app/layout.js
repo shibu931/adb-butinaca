@@ -10,6 +10,15 @@ export const metadata = {
   description: 'We Sell ADB Butinaca',
 }
 
+const img = {
+  logo:{
+    path:'/assets/img/logo.png',
+    alt:'ADB Butinaca'
+  },
+  user:'/assets/img/user-icon.png',
+  cart:'/assets/img/cart-icon.png',
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -18,13 +27,13 @@ export default function RootLayout({ children }) {
         </head>
       <body className={`inter.className max-w-10xl mx-auto`}>
         <header>
-          <Navbar/>
+          <Navbar img={img}/>
         </header>
         <main>
           {children}
         </main>
         <footer>
-          <Footer/>
+          <Footer img={img}/>
         </footer>
       </body>
     </html>

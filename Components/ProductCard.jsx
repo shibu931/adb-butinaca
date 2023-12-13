@@ -55,11 +55,11 @@ const ProductCard = () => {
           <span className='text-gray-500 text-sm md:text-lg'>Research Chemicals</span>
           <h1 className='text-4xl md:text-6xl font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>{product.title}</span></h1>
           <div className="flex mt-2">
-            <StarIcon class="h-6 w-6 text-yellow-500" />
-            <StarIcon class="h-6 w-6 text-yellow-500" />
-            <StarIcon class="h-6 w-6 text-yellow-500" />
-            <StarIcon class="h-6 w-6 text-yellow-500" />
-            <StarIcon class="h-6 w-6 text-yellow-500" />
+            <StarIcon className="h-6 w-6 text-yellow-500" />
+            <StarIcon className="h-6 w-6 text-yellow-500" />
+            <StarIcon className="h-6 w-6 text-yellow-500" />
+            <StarIcon className="h-6 w-6 text-yellow-500" />
+            <StarIcon className="h-6 w-6 text-yellow-500" />
           </div>
           <p
             className=''

@@ -7,15 +7,10 @@ import { Bars3CenterLeftIcon } from "@heroicons/react/24/outline";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import Cart from './Cart'
 
-const img = {
-    logo:'/assets/img/logo.png',
-    user:'/assets/img/user-icon.png',
-    cart:'/assets/img/cart-icon.png',
-}
-
 const navMenu =[
     {
-        title:'ADB Butinaca',
+        title:'Buy ADB Butinaca',
+        className:'btn-primary rounded-sm',
         slug:'adb-butinaca'
     },
     {
@@ -23,105 +18,129 @@ const navMenu =[
         subMenu:[
             {
                 title: "ARYLCYCLOHEXYLAMINES",
-                "slug": "/arylcylohexylamines"
+                className:'',
+                slug: "/arylcylohexylamines"
             },
             {
                 "title": "BENZODIAZEPINES",
-                "slug": "/benzodiazepines"
+                className:'',
+                slug: "/benzodiazepines"
             },
             {
                 "title": "BENZOFURAN",
-                "slug": "/benzofuran"
+                className:'',
+                slug: "/benzofuran"
             },
             {
                 "title": "CANNABINOIDS",
-                "slug": "/cannabinoids"
+                className:'',
+                slug: "/cannabinoids"
             },
             {
                 "title": "CATHINONEN",
-                "slug": "/cathinonen"
+                className:'',
+                slug: "/cathinonen"
             },
             {
                 "title": "CYCLOHEXANOL",
-                "slug": "/cyclohexanol"
+                className:'',
+                slug: "/cyclohexanol"
             },
             {
                 "title": "CYCLOPYRROLON",
-                "slug": "/cyclopyrrolon"
+                className:'',
+                slug: "/cyclopyrrolon"
             },
             {
                 "title": "AMPHETAMINES",
-                "slug": "/amphetamines"
+                className:'',
+                slug: "/amphetamines"
             },
             {
                 "title": "LYSERGAMIDES",
-                "slug": "/lysergamides"
+                className:'',
+                slug: "/lysergamides"
             },
             {
                 "title": "NOOTROPICS",
-                "slug": "/nootropics"
+                className:'',
+                slug: "/nootropics"
             },
             {
                 "title": "PHENETHYLAMINES",
-                "slug": "/phenethylamines"
+                className:'',
+                slug: "/phenethylamines"
             },
             {
                 "title": "TRYPTAMINES",
-                "slug": "/tryptamines"
+                className:'',
+                slug: "/tryptamines"
             },
             {
                 "title": "RC LIQUIDS",
-                "slug": "/rc-liquids"
+                className:'',
+                slug: "/rc-liquids"
             },
             {
                 "title": "HERBAL INCENSE",
-                "slug": "/herbal-incense"
+                className:'',
+                slug: "/herbal-incense"
             },
             {
                 "title": "PELLETS",
-                "slug": "/pellets"
+                className:'',
+                slug: "/pellets"
             },
             {
                 "title": "BLOTTERS",
-                "slug": "/blotters"
+                className:'',
+                slug: "/blotters"
             },
             {
                 "title": "CAPSULES",
-                "slug": "/capsules"
+                className:'',
+                slug: "/capsules"
             },
             {
                 "title": "SARMS",
-                "slug": "/sarms"
+                className:'',
+                slug: "/sarms"
             }            
         ]
     },
     {
         title:'HHC Shop',
+        className:'',
         slug:'hhc-shop'
     },
     {
         title:'Sex Shop',
+        className:'',
         slug:'sex-shop'
     },
     {
         title:'Chems Library',
+        className:'',
         slug:'chems-library'
     },
     {
         title:'Info',
+        className:'',
         slug:'info'
     },
     {
         title:'Contact',
+        className:'',
         slug:'contact'
     }
     ,{
         title:'About Us',
+        className:'',
         slug:'about-us'
     },
 ]
 
-const Navbar = () => {
+const Navbar = ({img}) => {
     const [isNavVisible,setIsNavVisible] =useState(false);
 
 const showNav= (e)=>{
@@ -131,25 +150,25 @@ const showNav= (e)=>{
     return (
         <nav>
             <div className="top-nav flex justify-between mx-2 lg:mx-10 my-4">
-                <Bars3CenterLeftIcon class="h-10 w-10 lg:w-20 text-gray-500 xl:hidden ms-2" onClick={showNav}/>
+                <Bars3CenterLeftIcon className="h-10 w-10 lg:w-20 text-gray-500 xl:hidden ms-2" onClick={showNav}/>
                 <Link href="/">
                     <Image
-                        src={img.logo}
+                        src={img.logo.path}
                         width={140}
                         height={50}
-                        alt='ADB Butinaca'
+                        alt={img.logo.alt}
                     />
                 </Link>
                 <ul className={`xl:flex bg-gray-900 xl:bg-transparent nav-show my-auto mx-0 ${isNavVisible ? 'show': ''} z-50`}>
-                    <XMarkIcon class="h-6 w-6 text-gray-200 ms-auto xl:hidden" onClick={showNav}/>
+                    <XMarkIcon className="h-6 w-6 text-gray-200 ms-auto xl:hidden" onClick={showNav}/>
                     {
                         navMenu?.map((item,index)=>(
-                            <li className='text-gray-200 pb-3 lg:pb-0' key={index}>{item.subMenu ? <DropDownMenu options={item}/> : <Link className='text-lg xl:text-sm font-medium px-4 py-2' href={item.slug}>{item.title}</Link>}</li>
+                            <li className='text-gray-200 pb-3 lg:pb-0' key={index}>{item.subMenu ? <DropDownMenu options={item}/> : <Link className={`text-lg xl:text-sm font-medium px-4 py-2 ${item.className ? item.className : ''}`} href={item.slug}>{item.title}</Link>}</li>
                         ))
                     }
                 </ul>
                 <div className='flex'>
-                    <Link className='pe-5' href='/user'>
+                    <Link className='pe-5' href='/profile'>
                         <Image
                             src={img.user}
                             alt='User'

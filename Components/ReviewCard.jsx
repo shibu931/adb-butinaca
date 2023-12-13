@@ -134,7 +134,7 @@ const ReviewCard = () => {
 
 export const UserReviewCard = ({ review }) => {
     return (
-        <div className='p-4 mb-4 border-2 border-slate-700 rounded-md hover:scale-105 transition-all hover:cursor-pointer'>
+        <div className='p-4 mb-4 border-2 border-slate-700 rounded-md hover:scale-105 hover:shadow-lg transition-all hover:cursor-pointer'>
             <div className="flex flex-nowrap">
                 <div>
                     <Image
