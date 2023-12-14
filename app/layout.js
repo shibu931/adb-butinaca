@@ -2,6 +2,9 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/Components/Navbar'
 import Footer from '@/Components/Footer'
+import axios from 'axios'
+import Link from 'next/link'
+import Image from 'next/image'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,15 +29,28 @@ export default function RootLayout({ children }) {
       <link rel="icon" href="/assets/img/favicon.ico" />
         </head>
       <body className={`inter.className max-w-10xl mx-auto`}>
+        
         <header>
-          <Navbar img={img}/>
+          <Navbar img={img} />
         </header>
+        
         <main>
           {children}
         </main>
+        
         <footer>
           <Footer img={img}/>
         </footer>
+        <div>
+          <Link href="https://t.me/legaldarkbuzzen" target='_blank' className="fixed bottom-5 right-6">
+          <Image
+          width={50}
+          height={50}
+          alt='telegram'
+            src="/assets/img/telegram.png"
+          />
+          </Link>
+        </div>
       </body>
     </html>
   )

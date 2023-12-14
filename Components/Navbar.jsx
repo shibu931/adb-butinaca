@@ -15,6 +15,8 @@ const navMenu =[
     },
     {
         title:'Research Chemicals',
+        slug:'',
+        className:'',
         subMenu:[
             {
                 title: "ARYLCYCLOHEXYLAMINES",
@@ -22,87 +24,87 @@ const navMenu =[
                 slug: "/arylcylohexylamines"
             },
             {
-                "title": "BENZODIAZEPINES",
+                title: "BENZODIAZEPINES",
                 className:'',
                 slug: "/benzodiazepines"
             },
             {
-                "title": "BENZOFURAN",
+                title: "BENZOFURAN",
                 className:'',
                 slug: "/benzofuran"
             },
             {
-                "title": "CANNABINOIDS",
+                title: "CANNABINOIDS",
                 className:'',
                 slug: "/cannabinoids"
             },
             {
-                "title": "CATHINONEN",
+                title: "CATHINONEN",
                 className:'',
                 slug: "/cathinonen"
             },
             {
-                "title": "CYCLOHEXANOL",
+                title: "CYCLOHEXANOL",
                 className:'',
                 slug: "/cyclohexanol"
             },
             {
-                "title": "CYCLOPYRROLON",
+                title: "CYCLOPYRROLON",
                 className:'',
                 slug: "/cyclopyrrolon"
             },
             {
-                "title": "AMPHETAMINES",
+                title: "AMPHETAMINES",
                 className:'',
                 slug: "/amphetamines"
             },
             {
-                "title": "LYSERGAMIDES",
+                title: "LYSERGAMIDES",
                 className:'',
                 slug: "/lysergamides"
             },
             {
-                "title": "NOOTROPICS",
+                title: "NOOTROPICS",
                 className:'',
                 slug: "/nootropics"
             },
             {
-                "title": "PHENETHYLAMINES",
+                title: "PHENETHYLAMINES",
                 className:'',
                 slug: "/phenethylamines"
             },
             {
-                "title": "TRYPTAMINES",
+                title: "TRYPTAMINES",
                 className:'',
                 slug: "/tryptamines"
             },
             {
-                "title": "RC LIQUIDS",
+                title: "RC LIQUIDS",
                 className:'',
                 slug: "/rc-liquids"
             },
             {
-                "title": "HERBAL INCENSE",
+                title: "HERBAL INCENSE",
                 className:'',
                 slug: "/herbal-incense"
             },
             {
-                "title": "PELLETS",
+                title: "PELLETS",
                 className:'',
                 slug: "/pellets"
             },
             {
-                "title": "BLOTTERS",
+                title: "BLOTTERS",
                 className:'',
                 slug: "/blotters"
             },
             {
-                "title": "CAPSULES",
+                title: "CAPSULES",
                 className:'',
                 slug: "/capsules"
             },
             {
-                "title": "SARMS",
+                title: "SARMS",
                 className:'',
                 slug: "/sarms"
             }            
@@ -111,7 +113,7 @@ const navMenu =[
     {
         title:'HHC Shop',
         className:'',
-        slug:'hhc-shop'
+        slug:'hhc-shop',
     },
     {
         title:'Sex Shop',
@@ -140,17 +142,16 @@ const navMenu =[
     },
 ]
 
-const Navbar = ({img}) => {
-    const [isNavVisible,setIsNavVisible] =useState(false);
-
-const showNav= (e)=>{
-    isNavVisible ? setIsNavVisible(false) : setIsNavVisible(true) 
-}
+const Navbar = ({ img }) => {
+    const [isNavVisible, setIsNavVisible] = useState(false);
+    const showNav = (e) => {
+        isNavVisible ? setIsNavVisible(false) : setIsNavVisible(true)
+    }
 
     return (
         <nav>
             <div className="top-nav flex justify-between mx-2 lg:mx-10 my-4">
-                <Bars3CenterLeftIcon className="h-10 w-10 lg:w-20 text-gray-500 xl:hidden ms-2" onClick={showNav}/>
+                <Bars3CenterLeftIcon className="h-10 w-10 lg:w-20 text-gray-500 xl:hidden ms-2" onClick={showNav} />
                 <Link href="/">
                     <Image
                         src={img.logo.path}
@@ -159,11 +160,11 @@ const showNav= (e)=>{
                         alt={img.logo.alt}
                     />
                 </Link>
-                <ul className={`xl:flex bg-gray-900 xl:bg-transparent nav-show my-auto mx-0 ${isNavVisible ? 'show': ''} z-50`}>
-                    <XMarkIcon className="h-6 w-6 text-gray-200 ms-auto xl:hidden" onClick={showNav}/>
+                <ul className={`xl:flex bg-gray-900 xl:bg-transparent nav-show my-auto mx-0 ${isNavVisible ? 'show' : ''} z-50`}>
+                    <XMarkIcon className="h-6 w-6 text-gray-200 ms-auto xl:hidden" onClick={showNav} />
                     {
-                        navMenu?.map((item,index)=>(
-                            <li className='text-gray-200 pb-3 lg:pb-0' key={index}>{item.subMenu ? <DropDownMenu options={item}/> : <Link className={`text-lg xl:text-sm font-medium px-4 py-2 ${item.className ? item.className : ''}`} href={item.slug}>{item.title}</Link>}</li>
+                        navMenu?.map((item, index) => (
+                            <li className='text-gray-200 pb-3 lg:pb-0' key={index}>{item.subMenu ? <DropDownMenu options={item} /> : <Link className={`text-lg xl:text-sm font-medium px-4 py-2 ${item.className ? item.className : ''}`} href={item.slug}>{item.title}</Link>}</li>
                         ))
                     }
                 </ul>
@@ -176,7 +177,7 @@ const showNav= (e)=>{
                             height={40}
                         />
                     </Link>
-                    <Cart/>
+                    <Cart />
                 </div>
             </div>
         </nav>
