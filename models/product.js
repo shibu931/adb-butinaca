@@ -13,29 +13,37 @@ const productSchema = new mongoose.Schema({
         type:String,
         required:[true,'Please Enter Product Description']
     },
-    price:{
-        type:Number,
-        required:[true,'Please Enter Product Price']
+    summary:{
+        type:String,
+        required:[true,'Please Enter Product Description']
     },
-    images:[
+    price:[
         {
-            public_id:{
+            qunatity:{
+                type:Number
+            },
+            price:{
+                type:String,
+                required:[true,'Please Enter Product Price']
+            }
+        }
+    ],
+    img:
+    {
+            thumb:{
                 type:String,
             },
             url:{
                 type:String,
             },
-        }
-    ],
+    },
     category:{
         type:String,
         required:[true,'Please enter Product Category'],
-        enum:{
-            values:[
-                "Research Chemicals"                
-            ],
-            message:"Please Select Correct Category"
-        }
+    },
+    subCategory:{
+        type:String,
+        required:[true,'Please enter Product Category'],
     },
     ratings:{
         type:Number,

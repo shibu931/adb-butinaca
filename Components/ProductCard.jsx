@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Tab } from '@headlessui/react'
 import {
@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import ProductDescription from './ProductDescription';
 import ReviewCard from './ReviewCard';
+import axios from 'axios';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -34,114 +35,151 @@ const product = {
 
 const ProductCard = () => {
   const [item, setItem] = useState(1)
+  const  [product,setProduct] = useState();
   const decrementItem = () => {
     if (item > 0) setItem(item - 1);
   }
   const incrementItem = () => {
-    if (item < 30) setItem(item + 1);
+    if (item < 1000) setItem(item + 1);
   }
+  useEffect(()=>{
+    axios.get(`http://localhost:3000/api/products/${`adb-butinaca`}`)
+      .then(response => {
+        setProduct(response.data[0])
+        console.log(product)
+        console.log(response.data[0])
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  },[])
   return (
     <div>
-      <div className='my-10 flex flex-wrap gap-10 md:gap-20 md:flex-nowrap'>
-        <div className='md:w-1/2'>
-          <Image
-            src={product.img}
-            alt={product.title}
-            height={650}
-            width={440}
-          />
-        </div>
-        <div className='text-gray-100 flex flex-col justify-center flex-grow-0'>
-          <span className='text-gray-500 text-sm md:text-lg'>Research Chemicals</span>
-          <h1 className='text-4xl md:text-6xl font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>{product.title}</span></h1>
-          <div className="flex mt-2">
-            <StarIcon className="h-6 w-6 text-yellow-500" />
-            <StarIcon className="h-6 w-6 text-yellow-500" />
-            <StarIcon className="h-6 w-6 text-yellow-500" />
-            <StarIcon className="h-6 w-6 text-yellow-500" />
-            <StarIcon className="h-6 w-6 text-yellow-500" />
+      {
+        product?.name &&     <div>
+        <div className='my-10 flex flex-wrap gap-10 md:gap-20 md:flex-nowrap'>
+          <div className='md:w-3/4'>
+            <Image
+              src={product.img.url}
+              alt={product.name}
+              height={650}
+              width={440}
+            />
           </div>
-          <p
-            className=''
-          >123 <span className='bg-yellow-400 font-extrabold text-transparent bg-clip-text'>Reviews</span>
-          </p>
-          <p className='text-md mt-6'>{product.description}</p>
-          <p className='text-md mt-4'>{product.description2}</p>
-          <h2 className='text-4xl mt-5 font-semibold'>&#x20AC; {product.discountedPrice} <span className='text-sm'>per gm</span></h2>
-          <span className='text-xl'>&#x20AC; <del>24</del></span>
-          <div className="flex gap-5 flex-grow-0">
-            <div className='flex mt-10'>
-              <button className='bg-violet-800 w-10 text-3xl h-10 text-center font-extrabold' onClick={decrementItem} >-</button>
-              <div className='bg-gray-200 text-black text-2xl w-10 h-10 text-center font-bold pt-1'>{item}</div>
-              <button className='bg-violet-800 text-3xl w-10 h-10 text-center font-extrabold' onClick={incrementItem} >+</button>
+          <div className='text-gray-100 flex flex-col justify-center flex-grow-0'>
+            <span className='text-gray-500 text-sm md:text-lg'>{product.category}</span>
+            <h1 className='text-4xl md:text-6xl font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>{product.name}</span></h1>
+            <div className="flex mt-2">
+              <StarIcon className="h-6 w-6 text-yellow-500" />
+              <StarIcon className="h-6 w-6 text-yellow-500" />
+              <StarIcon className="h-6 w-6 text-yellow-500" />
+              <StarIcon className="h-6 w-6 text-yellow-500" />
+              <StarIcon className="h-6 w-6 text-yellow-500" />
             </div>
-            <button className='py-1 px-4 bg-gradient-to-b mt-10 font-bold from-violet-800 to-purple-500 hover:from-violet-900 hover:to-purple-600'>
-              Add To Cart
-            </button>
+            <p
+              className='mb-5'
+            >123 <span className='bg-yellow-400 font-extrabold text-transparent bg-clip-text '>Reviews</span>
+            </p>
+            {/* &#x20AC; */}
+            <p className='text-md mb-5'>{product.summary}</p>
+            <table className="min-w-full text-left text-sm font-light border border-neutral-500">
+              <tbody>
+                <tr
+                  className="border-b transition duration-300 ease-in-out hover:bg-neutral-border-neutral-500 dark:hover:bg-neutral-600">
+                  <td className="whitespace-nowrap px-6 py-4 font-medium">Quantity:</td>
+                  {
+                    product?.price.map((item,index)=>(
+                      <td className="whitespace-nowrap px-6 py-4 border border-neutral-500" key={index}>{item.quantity}</td>
+                    ))
+                  }
+                </tr>
+                <tr
+                className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 border-neutral-500 dark:hover:bg-neutral-600"
+                >
+                  <td className="whitespace-nowrap px-6 py-4 font-medium">Price:</td>
+                  {
+                    product?.price.map((item,index)=>(
+                      <td className="whitespace-nowrap px-6 py-4 border border-neutral-500" key={index}>{item.price}</td>
+                    ))
+                  }
+                </tr>
+              </tbody>
+            </table>
+            <div className="flex gap-5 flex-grow-0">
+              <div className='flex mt-10'>
+                <button className='bg-violet-800 w-10 text-3xl h-10 text-center font-extrabold' onClick={decrementItem} >-</button>
+                <input type="number" className='bg-gray-200 text-black text-2xl w-16 h-10 text-center font-bold pt-1' value={item} onChange={(e)=>{setItem(e.target.value)}} />
+                <button className='bg-violet-800 text-3xl w-10 h-10 text-center font-extrabold' onClick={incrementItem} >+</button>
+              </div>
+              <button className='py-1 px-4 bg-gradient-to-b mt-10 font-bold from-violet-800 to-purple-500 hover:from-violet-900 hover:to-purple-600'>
+                Add To Cart
+              </button>
+            </div>
           </div>
         </div>
+        <div className='text-white '>
+          <Tab.Group >
+            <Tab.List className='w-full max-w-md px-2 sm:px-0 mx-auto mb-5 flex space-x-1 rounded-xl bg-blue-900/20 p-1'>
+              <Tab className={({ selected }) =>
+                classNames(
+                  'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                  'ring-white/60 ring-offset-1 ring-offset-blue-900 focus:outline-none focus:ring-2',
+                  selected
+                    ? 'bg-white text-blue-700 shadow'
+                    : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+                )
+              }>Description</Tab>
+              <Tab className={({ selected }) =>
+                classNames(
+                  'w-full rounded-lg px-2 py-2.5 text-sm font-medium leading-5',
+                  'ring-white/60 ring-offset-1 ring-offset-blue-900 focus:outline-none focus:ring-2',
+                  selected
+                    ? 'bg-white text-blue-700 shadow'
+                    : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+                )
+              }>Additional Information</Tab>
+              <Tab className={({ selected }) =>
+                classNames(
+                  'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                  'ring-white/60 ring-offset-1 ring-offset-blue-900 focus:outline-none focus:ring-2',
+                  selected
+                    ? 'bg-white text-blue-700 shadow'
+                    : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
+                )
+              }>Reviews</Tab>
+            </Tab.List>
+            <Tab.Panels>
+              <Tab.Panel><ProductDescription description={product.description} /></Tab.Panel>
+              <Tab.Panel>
+                <div className='bg-slate-900 p-5 md:py-10 md:px-20 rounded border-gray-800 border-2'>
+                <TableContainer>
+                  <Table variant='simple'>
+                    <Tbody>
+                      <Tr className='align-top'>
+                        <Td ><strong>Shipping: </strong></Td>
+                        <Td>Room Temperature in <br className='md:hidden'/>continental US; may vary<br className='md:hidden'/> elsewhere</Td>
+                      </Tr>
+                      <Tr>
+                        <Td><strong>Storage: </strong></Td>
+                        <Td>-20°C</Td>
+                      </Tr>
+                      <Tr>
+                        <Td><strong>Stability: </strong></Td>
+                        <Td>≥ 5 years</Td>
+                      </Tr>
+                    </Tbody>
+                  </Table>
+                </TableContainer>
+                </div>
+              </Tab.Panel>
+              <Tab.Panel>
+                <ReviewCard/>
+              </Tab.Panel>
+            </Tab.Panels>
+          </Tab.Group>
+        </div>
       </div>
-      <div className='text-white '>
-        <Tab.Group >
-          <Tab.List className='w-full max-w-md px-2 sm:px-0 mx-auto mb-5 flex space-x-1 rounded-xl bg-blue-900/20 p-1'>
-            <Tab className={({ selected }) =>
-              classNames(
-                'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
-                'ring-white/60 ring-offset-1 ring-offset-blue-900 focus:outline-none focus:ring-2',
-                selected
-                  ? 'bg-white text-blue-700 shadow'
-                  : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
-              )
-            }>Description</Tab>
-            <Tab className={({ selected }) =>
-              classNames(
-                'w-full rounded-lg px-2 py-2.5 text-sm font-medium leading-5',
-                'ring-white/60 ring-offset-1 ring-offset-blue-900 focus:outline-none focus:ring-2',
-                selected
-                  ? 'bg-white text-blue-700 shadow'
-                  : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
-              )
-            }>Additional Information</Tab>
-            <Tab className={({ selected }) =>
-              classNames(
-                'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
-                'ring-white/60 ring-offset-1 ring-offset-blue-900 focus:outline-none focus:ring-2',
-                selected
-                  ? 'bg-white text-blue-700 shadow'
-                  : 'text-blue-100 hover:bg-white/[0.12] hover:text-white'
-              )
-            }>Reviews</Tab>
-          </Tab.List>
-          <Tab.Panels>
-            <Tab.Panel><ProductDescription product={product} /></Tab.Panel>
-            <Tab.Panel>
-              <div className='bg-slate-900 p-5 md:py-10 md:px-20 rounded border-gray-800 border-2'>
-              <TableContainer>
-                <Table variant='simple'>
-                  <Tbody>
-                    <Tr className='align-top'>
-                      <Td ><strong>Shipping: </strong></Td>
-                      <Td>Room Temperature in <br className='md:hidden'/>continental US; may vary<br className='md:hidden'/> elsewhere</Td>
-                    </Tr>
-                    <Tr>
-                      <Td><strong>Storage: </strong></Td>
-                      <Td>-20°C</Td>
-                    </Tr>
-                    <Tr>
-                      <Td><strong>Stability: </strong></Td>
-                      <Td>≥ 5 years</Td>
-                    </Tr>
-                  </Tbody>
-                </Table>
-              </TableContainer>
-              </div>
-            </Tab.Panel>
-            <Tab.Panel>
-              <ReviewCard/>
-            </Tab.Panel>
-          </Tab.Panels>
-        </Tab.Group>
-      </div>
+      }
     </div>
   )
 }

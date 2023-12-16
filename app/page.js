@@ -1,5 +1,5 @@
-import FAQs from '@/Components/FAQs'
-import ProductCard from '@/Components/ProductCard'
+import FAQs from '/Components/FAQs'
+import ProductCard from '/Components/ProductCard'
 import Image from 'next/image'
 
 const faqs=[
@@ -30,12 +30,11 @@ const faqs=[
   }
 ]
 
-
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <section className='px-6 md:px-20'>
-        <ProductCard />
+        <ProductCard/>
       </section>
       <section className='px-6 md:px-20 my-20'>
         <div className='grid grid-cols-1 lg:grid-cols-3'>

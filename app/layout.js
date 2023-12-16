@@ -1,8 +1,7 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/Components/Navbar'
-import Footer from '@/Components/Footer'
-import axios from 'axios'
+import Navbar from '/Components/Navbar'
+import Footer from '/Components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 

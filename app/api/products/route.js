@@ -1,6 +1,6 @@
-import Product from "@/models/product";
-import connectToDB from "@/utils/dbConnect";
-import { getResponseMessage } from "@/utils/responseMessage";
+import Product from "/models/product";
+import connectToDB from "/utils/dbConnect";
+import { getResponseMessage } from "/utils/responseMessage";
 import { NextResponse } from "next/server";
 
 connectToDB()

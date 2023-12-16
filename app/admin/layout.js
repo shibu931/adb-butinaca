@@ -1,3 +1,4 @@
+import { EdgeStoreProvider } from '/lib/edgestore'
 import { Inter } from 'next/font/google'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -10,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
         <main>
-          {children}
+          <EdgeStoreProvider>{children}</EdgeStoreProvider>
         </main>
   )
 }
