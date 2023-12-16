@@ -87,7 +87,7 @@ const ProductForm = ({ productDetails }) => {
       data.category = selectedCategory.name
       data.subCategory = selectedSubCategory.name
       data.description = content
-      axios.post('http://localhost:3000/api/products', data)
+      axios.post('/api/products', data)
         .then(response => {
           console.log('Response:', response.data);
         })
