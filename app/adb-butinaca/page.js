@@ -1,4 +1,4 @@
-import ProductCard from '@/Components/ProductCard'
+import ProductCard from '/Components/ProductCard'
 import React from 'react'
 
 const page = () => {
