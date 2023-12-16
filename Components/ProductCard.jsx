@@ -89,31 +89,47 @@ const ProductCard = () => {
               </p>
               {/* &#x20AC; */}
               <p className='text-md mb-5'>{product.summary}</p>
-              <div className='overflow-x-auto'>
-                <table className="min-w-full text-left text-sm font-light border border-neutral-500 ">
-                  <tbody>
-                    <tr
-                      className="border-b transition duration-300 ease-in-out hover:bg-neutral-border-neutral-500 dark:hover:bg-neutral-600">
-                      <td className="whitespace-nowrap px-6 py-4 font-medium">Quantity:</td>
-                      {
-                        product?.price.map((item, index) => (
-                          <td className="whitespace-nowrap px-6 py-4 border border-neutral-500" key={index}>{item.quantity}</td>
-                        ))
-                      }
-                    </tr>
-                    <tr
-                      className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 border-neutral-500 dark:hover:bg-neutral-600"
-                    >
-                      <td className="whitespace-nowrap px-6 py-4 font-medium">Price:</td>
-                      {
-                        product?.price.map((item, index) => (
-                          <td className="whitespace-nowrap px-6 py-4 border border-neutral-500" key={index}>{item.price}</td>
-                        ))
-                      }
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                      <table class="min-w-full text-left text-sm font-light  border border-neutral-500 md:block hidden">
+                        <tbody className=''>
+                          <tr
+                            className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 border-neutral-500 dark:hover:bg-neutral-600">
+                            <td className="whitespace-nowrap px-6 py-4 font-medium">Quantity:</td>
+                            {
+                              product?.price.map((item, index) => (
+                                <td className="whitespace-nowrap px-6 py-4 border border-neutral-500" key={index}>{item.quantity}</td>
+                              ))
+                            }
+                          </tr>
+                          <tr
+                            className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 border-neutral-500 dark:hover:bg-neutral-600 "
+                          >
+                            <td className="whitespace-nowrap px-6 py-4 font-medium">Price:</td>
+                            {
+                              product?.price.map((item, index) => (
+                                <td className="whitespace-nowrap px-6 py-4 border border-neutral-500" key={index}>{item.price}</td>
+                              ))
+                            }
+                          </tr>
+                        </tbody>
+                      </table>
+                      <table class="min-w-full text-left text-sm font-light  border border-neutral-500 md:hidden">
+                        <thead>
+                          <tr>
+                            <td className="whitespace-nowrap px-6 py-4 border border-neutral-500"><strong>Quantity</strong></td>
+                            <td className="whitespace-nowrap px-6 py-4 border border-neutral-500"><strong>Price</strong></td>
+                          </tr>
+                        </thead>
+                        <tbody className=''>
+                        {
+                              product?.price.map((item, index) => (
+                                <tr key={index}>
+                                <td className="whitespace-nowrap px-6 py-2 border border-neutral-500" >{item.quantity}</td>
+                                <td className="whitespace-nowrap px-6 py-2 border border-neutral-500" >{item.price}</td>
+                                </tr>
+                              ))
+                            }
+                        </tbody>
+                      </table>
               <div className="flex gap-5 flex-grow-0">
                 <div className='flex mt-10'>
                   <button className='bg-violet-800 w-10 text-3xl h-10 text-center font-extrabold' onClick={decrementItem} >-</button>
