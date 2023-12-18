@@ -1,16 +1,20 @@
-import mongoose, { mongo } from 'mongoose'
+import mongoose from 'mongoose'
 
-const connectToDB =()=>{
+const connectToDB =async ()=>{
     try {
-        if(mongoose.connection.readyState >=1)
-        return
-        mongoose.set('strictQuery',false)
         mongoose.connect(process.env.MONGODB_URI)
-        console.log("DB Connected")
+        const connection = mongoose.connection;
+        connection.on('connected',()=>{
+            console.log('MongoB connected successfully');
+        })
+        connection.on('error',(err)=>{
+            console.log('MongoDB connection error. Please make sure MongoDB is running. '+err);
+            process.exit();
+        })
     } catch (error) {
-        console.log("Db not connected")
+        console.log("Db not connected");
+        console.log(error);
     }
-
 }
 
 export default connectToDB;
