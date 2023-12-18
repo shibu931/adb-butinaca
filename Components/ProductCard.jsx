@@ -71,6 +71,7 @@ const ProductCard = () => {
                 alt={product.name}
                 height={650}
                 width={440}
+                priority
               />
             </div>
             <div className='text-gray-100 flex flex-col justify-center flex-grow-0'>
