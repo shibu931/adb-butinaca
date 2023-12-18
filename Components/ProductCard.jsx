@@ -65,7 +65,7 @@ const ProductCard = () => {
       {
         isLoaded ? <div>
           <div className='my-10 flex flex-wrap gap-10 md:gap-20 md:flex-nowrap'>
-            <div className='md:w-3/4'>
+            <div className='md:w-3/4 mx-auto'>
               <Image
                 src={product.img.url}
                 alt={product.name}

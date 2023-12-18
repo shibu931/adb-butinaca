@@ -4,8 +4,8 @@ const ProductCardSkeleton = () => {
     return (
         <>
             <div className='flex flex-wrap gap-10 md:gap-20 md:flex-nowrap my-10'>
-                <div className='md:w-2/4'>
-                    <div className='rounded-md mx-auto animate-pulse bg-gray-400 transition-all w-[350px] h-[500px]'>
+                <div className='md:w-2/4 mx-auto'>
+                    <div className='rounded-md mx-auto animate-pulse bg-gray-400 transition-all w-[450px] h-[600px] lg:w-[350px] lg:h-[500px]'>
 
                     </div>
                 </div>

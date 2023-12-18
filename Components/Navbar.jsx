@@ -150,7 +150,7 @@ const Navbar = ({ img }) => {
 
     return (
         <nav>
-            <div className="top-nav flex justify-between mx-2 lg:mx-10 my-4">
+            <div className="top-nav flex justify-between mx-2 xl:mx-10 my-4">
                 <Bars3CenterLeftIcon className="h-10 w-10 lg:w-20 text-gray-500 xl:hidden ms-2" onClick={showNav} />
                 <Link href="/">
                     <Image
