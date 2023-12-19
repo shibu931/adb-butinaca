@@ -11,7 +11,7 @@ const navMenu =[
     {
         title:'Buy ADB Butinaca',
         className:'btn-primary rounded-sm',
-        slug:'adb-butinaca'
+        slug:'/adb-butinaca'
     },
     {
         title:'Research Chemicals',
@@ -21,109 +21,109 @@ const navMenu =[
             {
                 title: "ARYLCYCLOHEXYLAMINES",
                 className:'',
-                slug: "/arylcylohexylamines"
+                slug: "/products/arylcylohexylamines"
             },
             {
                 title: "BENZODIAZEPINES",
                 className:'',
-                slug: "/benzodiazepines"
+                slug: "/products/benzodiazepines"
             },
             {
                 title: "BENZOFURAN",
                 className:'',
-                slug: "/benzofuran"
+                slug: "/products/benzofuran"
             },
             {
                 title: "CANNABINOIDS",
                 className:'',
-                slug: "/cannabinoids"
+                slug: "/products/cannabinoids"
             },
             {
                 title: "CATHINONEN",
                 className:'',
-                slug: "/cathinonen"
+                slug: "/products/cathinonen"
             },
             {
                 title: "CYCLOHEXANOL",
                 className:'',
-                slug: "/cyclohexanol"
+                slug: "/products/cyclohexanol"
             },
             {
                 title: "CYCLOPYRROLON",
                 className:'',
-                slug: "/cyclopyrrolon"
+                slug: "/products/cyclopyrrolon"
             },
             {
                 title: "AMPHETAMINES",
                 className:'',
-                slug: "/amphetamines"
+                slug: "/products/amphetamines"
             },
             {
                 title: "LYSERGAMIDES",
                 className:'',
-                slug: "/lysergamides"
+                slug: "/products/lysergamides"
             },
             {
                 title: "NOOTROPICS",
                 className:'',
-                slug: "/nootropics"
+                slug: "/products/nootropics"
             },
             {
                 title: "PHENETHYLAMINES",
                 className:'',
-                slug: "/phenethylamines"
+                slug: "/products/phenethylamines"
             },
             {
                 title: "TRYPTAMINES",
                 className:'',
-                slug: "/tryptamines"
+                slug: "/products/tryptamines"
             },
             {
                 title: "RC LIQUIDS",
                 className:'',
-                slug: "/rc-liquids"
+                slug: "/products/rc-liquids"
             },
             {
                 title: "HERBAL INCENSE",
                 className:'',
-                slug: "/herbal-incense"
+                slug: "/products/herbal-incense"
             },
             {
                 title: "PELLETS",
                 className:'',
-                slug: "/pellets"
+                slug: "/products/pellets"
             },
             {
                 title: "BLOTTERS",
                 className:'',
-                slug: "/blotters"
+                slug: "/products/blotters"
             },
             {
                 title: "CAPSULES",
                 className:'',
-                slug: "/capsules"
+                slug: "/products/capsules"
             },
             {
                 title: "SARMS",
                 className:'',
-                slug: "/sarms"
+                slug: "/products/sarms"
             }            
         ]
     },
     {
         title:'HHC Shop',
         className:'',
-        slug:'hhc-shop',
+        slug:'/products/hhc-shop',
     },
     {
         title:'Sex Shop',
         className:'',
-        slug:'sex-shop'
+        slug:'/products/sex-shop'
     },
     {
         title:'Chems Library',
         className:'',
-        slug:'chems-library'
+        slug:'/products/chems-library'
     },
     {
         title:'Info',

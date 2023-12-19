@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
       <head>
       <link rel="icon" href="/assets/img/favicon.ico" />
         </head>
-      <body className={`inter.className max-w-10xl mx-auto`}>
+      <body className="inter.className max-w-10xl mx-auto">
         
         <header>
           <Navbar img={img} />

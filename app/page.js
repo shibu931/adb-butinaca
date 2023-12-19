@@ -36,7 +36,7 @@ export default async function Home() {
       <section className='px-6 md:px-20'>
         <ProductCard/>
       </section>
-      <section className='px-6 md:px-20 my-20'>
+      <section className='px-6 md:px-20 mt-20'>
         <div className='grid grid-cols-1 lg:grid-cols-3'>
           <div className='mx-auto'>
             <Image

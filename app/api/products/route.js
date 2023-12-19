@@ -7,8 +7,11 @@ connectToDB()
 
 export async function GET(request) {
     try {
-        const Products = await Product.find();
-        return NextResponse.json(Products,{status:200})
+        const Products = await Product.find().select("-description -summary -price -reviews");
+        if(Products)
+            return NextResponse.json(Products,{status:200})
+        else   
+            return NextResponse.json({message:"No Products found"},{status:200})
     } catch (error) {
         return getResponseMessage("Failed to Get Products",500,false)
     }

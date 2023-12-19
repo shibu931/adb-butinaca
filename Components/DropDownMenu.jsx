@@ -26,7 +26,7 @@ export default function DropDownMenu({ options }) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="xl:absolute relative right-0 mt-2 lg:text-sm text-xs origin-top-right divide-y divide-gray-900 rounded-md bg-slate-900 shadow-lg ring-1 ring-black/5 focus:outline-none">
+          <Menu.Items className="xl:absolute relative right-0 mt-2 lg:text-sm text-xs origin-top-right divide-y divide-gray-900 rounded-md bg-slate-900 shadow-lg lg:shadow-gray-900 ring-1 lg:ring-gray-800 focus:outline-none">
             {
               options.subMenu?.map((item, index) => (
                 <div className=' px-4' key={index}>

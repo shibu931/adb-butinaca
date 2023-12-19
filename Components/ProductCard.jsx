@@ -53,7 +53,7 @@ const ProductCard = () => {
   useEffect(() => {
     axios.get(`/api/products/${`adb-butinaca`}`)
       .then(response => {
-        setProduct(response.data[0])
+        setProduct(response.data)
         setIsLoaded(true)
       })
       .catch(error => {

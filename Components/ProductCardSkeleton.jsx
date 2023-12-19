@@ -5,13 +5,13 @@ const ProductCardSkeleton = () => {
         <>
             <div className='flex flex-wrap gap-10 md:gap-20 md:flex-nowrap my-10'>
                 <div className='md:w-2/4 mx-auto'>
-                    <div className='rounded-md mx-auto animate-pulse bg-gray-400 transition-all w-[450px] h-[600px] lg:w-[350px] lg:h-[500px]'>
+                    <div className='rounded-md mx-auto animate-pulse bg-gray-400 transition-all w-[340px] h-[500px]'>
 
                     </div>
                 </div>
                 <div className='my-auto'>
                     <div className='h-6 rounded w-[200px] animate-pulse bg-gray-400'></div>
-                    <div className='h-16 mt-2 w-[350px] animate-pulse bg-gray-400 rounded'></div>
+                    <div className='h-16 mt-2 lg:w-[350px] w-[240px] animate-pulse bg-gray-400 rounded'></div>
                     <div className='h-16 mt-2 w-[250px] animate-pulse bg-gray-400 rounded'></div>
                     <div className='bg-gray-400 rounded animate-pulse w-[340px] md:w-[900px] mt-5 h-24 rounded-bl-none'></div>
                     <div className='h-4 w-[260px] md:w-[400px] animate-pulse bg-gray-400 rounded-br rounded-bl'></div>

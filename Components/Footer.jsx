@@ -23,7 +23,7 @@ const FooterLinks=[{
 
 const Footer = ({ img }) => {
   return (
-    <div className='text-white lg:mb-10 lg:mx-10 rounded-xl'>
+    <div className='text-white lg:mb-10 lg:mx-10 rounded-xl mt-20'>
       <div className="grid grid-cols-1 lg:gap-20 gap-5 md:grid-cols-2 lg:grid-cols-7 ">
       <div className='col-span-2 mx-4'>
       <Link href='/'>
