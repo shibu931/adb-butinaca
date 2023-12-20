@@ -1,10 +1,10 @@
 'use client'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 
 const JoditEditor = dynamic(
   () => import('jodit-react'),
-  { ssr: false } // This will prevent the component from being rendered on the server
+  { ssr: false } 
 )
 import { useEdgeStore } from '/lib/edgestore';
 import { SingleImageDropzone } from '/Components/single-dropzone-file';
@@ -13,7 +13,8 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import axios from 'axios';
 
-const ProductForm = ({ productDetails }) => {
+const ProductForm = ({ id }) => {
+    
     const productCategory = [
       { name: 'Research Chemicals' },
     ]
@@ -87,20 +88,43 @@ const ProductForm = ({ productDetails }) => {
       data.category = selectedCategory.name
       data.subCategory = selectedSubCategory.name
       data.description = content
-      axios.post('/api/products', data)
+      if(id){
+        axios.put('/api/products', data)
         .then(response => {
           console.log('Response:', response.data);
         })
         .catch(error => {
           console.error('Error:', error);
         });
+      }else{
+        axios.post('/api/products', data)
+        .then(response => {
+          console.log('Response:', response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
     }
+    const fetchData = async (id)=>{
+        const response = await axios.get(`/api/products/${id}`)
+        console.log(response.data)
+        setProduct({...response.data})
+    }
+    useEffect(()=>{
+      setContent(product.description)
+    },[product])
+    useEffect(()=>{
+      if(id){
+        fetchData(id)
+      }
+    },[])
     return (
       <div className='border-2 rounded mt-10 border-slate-800 p-10'>
         <form action="">
           <div className="mb-5">
             <label for="productTitle" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Title</label>
-            <input type="text" id="productTitle" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Product Title" required
+            <input value={product.name} type="text" id="productTitle" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Product Title" required
               onChange={(e) => {
                 setProduct({ ...product, name: e.target.value })
               }}
@@ -108,7 +132,7 @@ const ProductForm = ({ productDetails }) => {
           </div>
           <div className="mb-5">
             <label for="productSlug" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Slug</label>
-            <input type="text" id="productSlug" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Product Slug" required
+            <input value={product.slug} type="text" id="productSlug" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Product Slug" required
               onChange={(e) => {
                 setProduct({ ...product, slug: e.target.value })
               }}
@@ -116,7 +140,7 @@ const ProductForm = ({ productDetails }) => {
           </div>
           <div className="mb-5">
             <label for="productSummary" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Summary</label>
-            <textarea id="productSummary" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Product Summary"
+            <textarea value={product.summary} id="productSummary" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Product Summary"
               onChange={(e) => {
                 setProduct({ ...product, summary: e.target.value })
               }}

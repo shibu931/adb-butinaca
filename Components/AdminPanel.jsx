@@ -1,19 +1,21 @@
 'use client'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductList from '/Components/ProductList'
 import ProductForm from '/Components/ProductForm'
+import { useRouter } from 'next/router';
 
-const AdminPanel = () => {
+const AdminPanel = ({pathname,id}) => {
     const product = {
-        title: 'ADB Butinaca',
-        img: 'https://placehold.co/50x50',
-        category: 'Reaserch Chemicals'
-      }
-    const [openTab, setOpenTab] = useState();
-    const [activeTab, setActiveTab] = useState(1);
-    const handleTabClick = (tabNumber) => {
+      title: 'ADB Butinaca',
+      img: 'https://placehold.co/50x50',
+      category: 'Reaserch Chemicals'
+    }
+  const [openTab, setOpenTab] = useState('');
+    
+  const [activeTab, setActiveTab] = useState(1);
+  const handleTabClick = (tabNumber) => {
       setActiveTab(tabNumber);
-    };
+  };
   return (
     <div className='max-w-10xl text-white my-10 mx-10'>
     <div className="grid lg:grid-cols-8 lg:gap-20">
@@ -41,7 +43,10 @@ const AdminPanel = () => {
               </ul> :
               openTab === '/add-product' ? 
                 <ProductForm />
-                : ''
+              : 
+              openTab === 'update-product' ? 
+                <ProductForm id={id} />
+              : ''
           }
         </div>
       </div>

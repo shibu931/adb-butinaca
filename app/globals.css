@@ -62,10 +62,6 @@ input::-webkit-inner-spin-button {
   background-color: #f1f1f1; 
 }
 
-.max-w-10xl {
-  max-width: 1440px;
-}
-
 .glow{
   background-color: rgba(107, 33, 168, 0.2);
   height: 100%; 

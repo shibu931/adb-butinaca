@@ -128,17 +128,29 @@ const navMenu =[
     {
         title:'Info',
         className:'',
-        slug:'info'
+        slug:'',
+        subMenu:[
+            {
+                title: "Policy",
+                className:'',
+                slug: "/delivery-info"
+            },
+            {
+                title: "Terms and Conditions",
+                className:'',
+                slug: "/terms-and-conditions"
+            }  
+        ]
     },
     {
         title:'Contact',
         className:'',
-        slug:'contact'
+        slug:'/contact'
     }
     ,{
         title:'About Us',
         className:'',
-        slug:'about-us'
+        slug:'/about-us'
     },
 ]
 
@@ -149,9 +161,9 @@ const Navbar = ({ img }) => {
     }
 
     return (
-        <nav>
+        <nav >
             <div className="top-nav flex justify-between mx-2 xl:mx-10 my-4">
-                <Bars3CenterLeftIcon className="h-10 w-10 lg:w-20 text-gray-500 xl:hidden ms-2" onClick={showNav} />
+                <Bars3CenterLeftIcon className="h-10 w-10 lg:w-20 text-gray-500 xl:hidden ms-2 hover:cursor-pointer" onClick={showNav} />
                 <Link href="/">
                     <Image
                         src={img.logo.path}
@@ -161,7 +173,7 @@ const Navbar = ({ img }) => {
                     />
                 </Link>
                 <ul className={`xl:flex bg-gray-900 xl:bg-transparent nav-show my-auto mx-0 ${isNavVisible ? 'show' : ''} z-50`}>
-                    <XMarkIcon className="h-6 w-6 text-gray-200 ms-auto xl:hidden" onClick={showNav} />
+                    <XMarkIcon className="h-6 w-6 text-gray-200 ms-auto xl:hidden hover:cursor-pointer" onClick={showNav} />
                     {
                         navMenu?.map((item, index) => (
                             <li className='text-gray-200 pb-3 lg:pb-0' key={index}>{item.subMenu ? <DropDownMenu options={item} /> : <Link className={`text-lg xl:text-sm font-medium px-4 py-2 ${item.className ? item.className : ''}`} href={item.slug}>{item.title}</Link>}</li>

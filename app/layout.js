@@ -4,6 +4,7 @@ import Navbar from '/Components/Navbar'
 import Footer from '/Components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
+import {GlobalProvider} from './GlobalProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,12 +24,13 @@ const img = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+      <html lang="en">
       <head>
       <link rel="icon" href="/assets/img/favicon.ico" />
         </head>
       <body className="inter.className max-w-10xl mx-auto">
         
+        <GlobalProvider>
         <header>
           <Navbar img={img} />
         </header>
@@ -36,6 +38,7 @@ export default function RootLayout({ children }) {
         <main>
           {children}
         </main>
+        </GlobalProvider>
         
         <footer>
           <Footer img={img}/>

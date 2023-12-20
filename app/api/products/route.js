@@ -29,3 +29,18 @@ export async function POST(req) {
         return getResponseMessage("Failed to create Product",500,false)
     }
 }
+
+export async function PUT(req){
+    try {
+        const productData = await req.json()
+        const updatedProduct = await Product.findOneAndUpdate({ slug: productData.slug }, productData, { new: true })
+        console.log("updated ", updatedProduct)
+        return NextResponse.json({ "Product ID": updatedProduct._id }, {
+            status: 201,
+            statusText: "Product Updated"
+        })
+    } catch (error) {
+        console.log(error)
+        return getResponseMessage("Failed to update Product",500,false)
+    }
+}

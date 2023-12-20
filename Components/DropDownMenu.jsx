@@ -6,10 +6,10 @@ import Link from 'next/link'
 
 export default function DropDownMenu({ options }) {
   return (
-    <div className="w-auto text-right">
+    <div className="">
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex w-full justify-center rounded-md px-4 text-lg xl:text-sm font-medium text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
+          <Menu.Button className="inline-flex w-full rounded-md px-4 text-lg xl:text-sm font-medium text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75">
             {options.title}
             <ChevronDownIcon
               className="-mr-1 ml-2 h-5 w-5 text-violet-200 hover:text-violet-100"
@@ -26,7 +26,7 @@ export default function DropDownMenu({ options }) {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="xl:absolute relative right-0 mt-2 lg:text-sm text-xs origin-top-right divide-y divide-gray-900 rounded-md bg-slate-900 shadow-lg lg:shadow-gray-900 ring-1 lg:ring-gray-800 focus:outline-none">
+          <Menu.Items className="xl:absolute relative right-0 mt-2 py-1 lg:text-sm text-xs origin-top-right divide-y divide-gray-900 rounded-md bg-slate-900 shadow-lg lg:shadow-gray-900 ring-1 lg:ring-gray-800 focus:outline-none">
             {
               options.subMenu?.map((item, index) => (
                 <div className=' px-4' key={index}>
@@ -34,7 +34,7 @@ export default function DropDownMenu({ options }) {
                     {({ active }) => (
                       <Link href={item.slug}
                         className={`${active ? 'bg-violet-500 text-white' : 'text-white'
-                          } group flex w-full items-center rounded-md px-2 py-2 lg:text-sm`}
+                          } group flex xl:w-44 w-full items-center rounded-md px-2 py-2 lg:text-sm`}
                       >
                         {item.title}
                       </Link>

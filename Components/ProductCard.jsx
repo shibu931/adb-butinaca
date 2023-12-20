@@ -1,7 +1,6 @@
 'use client'
 import Image from 'next/image'
-import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Tab } from '@headlessui/react'
 import {
@@ -19,6 +18,7 @@ import ProductDescription from './ProductDescription';
 import ReviewCard from './ReviewCard';
 import axios from 'axios';
 import ProductCardSkeleton from './ProductCardSkeleton';
+import CartContext from '../context/CartContext'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -34,7 +34,9 @@ const product = {
   discountedPrice: '12.44'
 }
 
+
 const ProductCard = () => {
+  const {addItemToCart} = useContext(CartContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [item, setItem] = useState(1)
   const [product, setProduct] = useState();
@@ -48,7 +50,16 @@ const ProductCard = () => {
     if (e.target.value < 1000 && e.target.value > 0)
       setItem(e.target.value)
     else
-      setItem(1000)
+    setItem(1000)
+}
+  const addToCartHandler = ()=>{
+    addItemToCart({
+      product:product._id,
+      name:product.name,
+      image:product.img.url,
+      category:product.category,
+      quantity:item
+    })
   }
   useEffect(() => {
     axios.get(`/api/products/${`adb-butinaca`}`)
@@ -64,8 +75,8 @@ const ProductCard = () => {
     <div>
       {
         isLoaded ? <div>
-          <div className='my-10 flex flex-wrap gap-10 md:gap-20 md:flex-nowrap'>
-            <div className='md:w-3/4 mx-auto'>
+          <div className='my-10 flex flex-wrap gap-10 md:flex-nowrap min-w-'>
+            <div className='md:min-w-28 mx-auto'>
               <Image
                 src={product.img.url}
                 alt={product.name}
@@ -90,54 +101,54 @@ const ProductCard = () => {
               </p>
               {/* &#x20AC; */}
               <p className='text-md mb-5'>{product.summary}</p>
-                      <table class="min-w-full text-left text-sm font-light  border border-neutral-500 md:block hidden">
-                        <tbody className=''>
-                          <tr
-                            className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 border-neutral-500 dark:hover:bg-neutral-600">
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">Quantity:</td>
-                            {
-                              product?.price.map((item, index) => (
-                                <td className="whitespace-nowrap px-6 py-4 border border-neutral-500" key={index}>{item.quantity}</td>
-                              ))
-                            }
-                          </tr>
-                          <tr
-                            className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 border-neutral-500 dark:hover:bg-neutral-600 "
-                          >
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">Price:</td>
-                            {
-                              product?.price.map((item, index) => (
-                                <td className="whitespace-nowrap px-6 py-4 border border-neutral-500" key={index}>{item.price}</td>
-                              ))
-                            }
-                          </tr>
-                        </tbody>
-                      </table>
-                      <table class="min-w-full text-left text-sm font-light  border border-neutral-500 md:hidden">
-                        <thead>
-                          <tr>
-                            <td className="whitespace-nowrap px-6 py-4 border border-neutral-500"><strong>Quantity</strong></td>
-                            <td className="whitespace-nowrap px-6 py-4 border border-neutral-500"><strong>Price</strong></td>
-                          </tr>
-                        </thead>
-                        <tbody className=''>
-                        {
-                              product?.price.map((item, index) => (
-                                <tr key={index}>
-                                <td className="whitespace-nowrap px-6 py-2 border border-neutral-500" >{item.quantity}</td>
-                                <td className="whitespace-nowrap px-6 py-2 border border-neutral-500" >{item.price}</td>
-                                </tr>
-                              ))
-                            }
-                        </tbody>
-                      </table>
+              <table class="min-w-full text-left text-sm font-light  border border-neutral-500 md:block hidden">
+                <tbody className=''>
+                  <tr
+                    className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 border-neutral-500 dark:hover:bg-neutral-600">
+                    <td className="whitespace-nowrap px-6 py-4 font-medium">Quantity:</td>
+                    {
+                      product?.price.map((item, index) => (
+                        <td className="whitespace-nowrap px-6 py-4 border border-neutral-500" key={index}>{item.quantity}</td>
+                      ))
+                    }
+                  </tr>
+                  <tr
+                    className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 border-neutral-500 dark:hover:bg-neutral-600 "
+                  >
+                    <td className="whitespace-nowrap px-6 py-4 font-medium">Price:</td>
+                    {
+                      product?.price.map((item, index) => (
+                        <td className="whitespace-nowrap px-6 py-4 border border-neutral-500" key={index}>{item.price}</td>
+                      ))
+                    }
+                  </tr>
+                </tbody>
+              </table>
+              <table class="min-w-full text-left text-sm font-light  border border-neutral-500 md:hidden">
+                <thead>
+                  <tr>
+                    <td className="whitespace-nowrap px-6 py-4 border border-neutral-500"><strong>Quantity</strong></td>
+                    <td className="whitespace-nowrap px-6 py-4 border border-neutral-500"><strong>Price</strong></td>
+                  </tr>
+                </thead>
+                <tbody className=''>
+                  {
+                    product?.price.map((item, index) => (
+                      <tr key={index}>
+                        <td className="whitespace-nowrap px-6 py-2 border border-neutral-500" >{item.quantity}</td>
+                        <td className="whitespace-nowrap px-6 py-2 border border-neutral-500" >{item.price}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
               <div className="flex gap-5 flex-grow-0">
                 <div className='flex mt-10'>
-                  <button className='bg-violet-800 w-10 text-3xl h-10 text-center font-extrabold' onClick={decrementItem} >-</button>
+                  <button className='bg-violet-800 w-10 text-3xl h-10 text-center pb-1 font-extrabold' onClick={decrementItem} >-</button>
                   <input type="number" className='bg-gray-200 text-black text-2xl w-16 h-10 text-center font-bold pt-1' value={item} onChange={(e) => { changeItem() }} />
-                  <button className='bg-violet-800 text-3xl w-10 h-10 text-center font-extrabold' onClick={incrementItem} >+</button>
+                  <button className='bg-violet-800 text-3xl w-10 h-10 text-center pb-1 font-extrabold' onClick={incrementItem} >+</button>
                 </div>
-                <button className='py-1 px-4 bg-gradient-to-b mt-10 font-bold from-violet-800 to-purple-500 hover:from-violet-900 hover:to-purple-600'>
+                <button onClick={addToCartHandler} className='py-1 px-4 bg-gradient-to-b mt-10 font-bold from-violet-800 to-purple-500 hover:from-violet-900 hover:to-purple-600'>
                   Add To Cart
                 </button>
               </div>

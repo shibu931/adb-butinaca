@@ -11,7 +11,7 @@ const ProductList = ({ product }) => {
   }
   const deleteProduct = (id)=>{
     const response = axios.delete(`/api/products/${id}`)
-    
+    console.log(response)
   }
   useEffect(() => {
     console.log(data)
@@ -34,7 +34,7 @@ const ProductList = ({ product }) => {
             <span className='text-xs'>{item.category}</span>
           </div>
           <div className='ms-auto my-auto'>
-            <Link href={`/admin/updateproduct/${item.slug}`} className='mx-2 bg-green-700 px-4 rounded py-2'>
+            <Link href={`/admin/update-product?id=${item.slug}`} className='mx-2 bg-green-700 px-4 rounded py-2'>
               Edit
             </Link>
             <button onClick={()=>{deleteProduct(item._id)}} className='mx-2 bg-red-700 px-4 rounded py-2'>
