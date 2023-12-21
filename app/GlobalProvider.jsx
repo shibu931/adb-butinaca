@@ -1,5 +1,13 @@
+"use client";
 import { CartProvider } from "../context/CartContext";
+import { AuthProvider } from "../context/AuthContext";
 
-export function GlobalProvider({children}){
-    return <CartProvider>{children}</CartProvider>
+export function GlobalProvider({ children }) {
+    return (
+        <AuthProvider>
+            <CartProvider>
+                {children}
+            </CartProvider>
+        </AuthProvider>
+    )
 }

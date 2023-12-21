@@ -34,7 +34,6 @@ export async function PUT(req){
     try {
         const productData = await req.json()
         const updatedProduct = await Product.findOneAndUpdate({ slug: productData.slug }, productData, { new: true })
-        console.log("updated ", updatedProduct)
         return NextResponse.json({ "Product ID": updatedProduct._id }, {
             status: 201,
             statusText: "Product Updated"

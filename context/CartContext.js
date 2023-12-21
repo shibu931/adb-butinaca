@@ -20,6 +20,7 @@ export const CartProvider = ({children})=>{
         product,
         name,
         image,
+        price,
         quantity=1,
         category
     })=>{
@@ -27,6 +28,7 @@ export const CartProvider = ({children})=>{
             product,
             name,
             image,
+            price,
             quantity,
             category
         }

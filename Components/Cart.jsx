@@ -2,12 +2,14 @@
 import { Popover, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Fragment, useContext } from 'react'
+import { Fragment, useContext, useEffect, useState } from 'react'
 import CartContext from '../context/CartContext'
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
 export default function Cart() {
   const { addItemToCart, cart,deleteItemFromCart } = useContext(CartContext);
+  const [shippingCharges, setShippingCharges] = useState(true);
+  const totalCartAmount = cart?.cartItems?.reduce((acc,item)=> acc + item.price,0)
 
   return (
     <Popover className="relative">
@@ -47,18 +49,25 @@ export default function Cart() {
                           />
                           <div className='ms-4'>
                             <h2 className='font-bold'>{cartItem.name}<span className='text-sm'>(x{cartItem.quantity})</span></h2>
-                            <p className='text-sm font-bold'>&#x20AC; 22.12</p>
+                            <p className='text-sm font-bold'>{cartItem.price}&#x20AC;</p>
                           </div>
                           <div className="ms-auto">
-                          <XMarkIcon className="h-6 w-6 mt-2 p-1 font-extrabold text-purple-800 bg-white rounded-full  ms-auto xl:hidden hover:cursor-pointer" onClick={()=>{deleteItemFromCart(cartItem.product)}} />
+                          <XMarkIcon className="h-6 w-6 mt-2 p-1 font-extrabold text-purple-800 bg-white rounded-full  ms-auto hover:cursor-pointer" onClick={()=>{deleteItemFromCart(cartItem.product)}} />
                           </div>
                         </li>
                       ))
                     }
                   </ul>
                   <div>
-                    <hr />
-                    <p className='font-bold mt-2 '><span className='font-extrabold'>Total: </span>120.22</p>
+                  <div className="flex justify-between mt-2 mb-2 items-center">
+                    <p className='font-bold'>Shipping Charges:</p>
+                    <p className='font-extrabold'>{totalCartAmount > 200 ? 0 : 20}&#x20AC;</p>
+                    </div>
+                    <hr className=''/>
+                    <div className="flex justify-between mt-2 items-center">
+                    <p className='font-bold'>Total Amount:</p>
+                    <p className='font-extrabold'>{totalCartAmount > 200 ? totalCartAmount : totalCartAmount+20}&#x20AC;</p>
+                    </div>
                   </div>
                 </div>
               ) : (

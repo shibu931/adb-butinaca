@@ -7,7 +7,6 @@ connectToDB()
 
 export async function GET(request,{params}) {
     const {slug} = params
-    console.log(slug)
     try {
         const products = await Product.findOne({slug:slug});
         if(products)

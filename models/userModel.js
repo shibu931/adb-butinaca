@@ -21,15 +21,22 @@ const userSchema = new mongoose.Schema({
     },
     isVerified:{
         type:Boolean,
-        default:false
+        default:false,
+        select: false,
     },
     isAdmin:{
         type:Boolean,
         default:false
     },
-    forgotPasswordToken:String,
+    forgotPasswordToken:{
+        type:String,
+        select: false,
+    },
     forgotPasswordTokenExpiry:Date,
-    verifyToken:String,
+    verifyToken:{
+        type:String,
+        select: false,
+    },
     verifyTokenExpiry:Date,
 })
 

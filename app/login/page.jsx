@@ -1,15 +1,15 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import AuthContext from '/context/AuthContext.js'
 
 const Login = () => {
   const router = useRouter()
-  
+  const {getUserDetails} = useContext(AuthContext);
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -54,6 +54,7 @@ const Login = () => {
       setLoading(true)
       if(validateForm()){
         const response = await axios.post("/api/users/login", user)
+        getUserDetails()
         toast.success(
           'Login Successfull redirecting',{
             position:'bottom-center',
@@ -81,8 +82,7 @@ const Login = () => {
     setButtonDisabled(!validateForm());
   },[user])
   return (
-    <div className="relative xl:max-w-2xl mx-4 md:mx-auto my-10 lg:my-20">
-       <ToastContainer />
+    <div className="relative xl:max-w-2xl mx-4 xl:mx-auto md:mx-10 my-10 lg:my-20">
       <div className="glow"></div>
       <div className='w-full flex flex-col text-white rounded-xl border border-purple-800 p-10 lg:px-20 justify-center bg-gray-950 bg-opacity-50'>
           <h2 className='text-3xl font-semibold text-center mb-4'>Login</h2>

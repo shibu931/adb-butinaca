@@ -19,6 +19,8 @@ import ReviewCard from './ReviewCard';
 import axios from 'axios';
 import ProductCardSkeleton from './ProductCardSkeleton';
 import CartContext from '../context/CartContext'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -40,6 +42,7 @@ const ProductCard = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [item, setItem] = useState(1)
   const [product, setProduct] = useState();
+  const [price, setPrice] = useState(25);
   const decrementItem = () => {
     if (item > 0) setItem(item - 1);
   }
@@ -57,10 +60,29 @@ const ProductCard = () => {
       product:product._id,
       name:product.name,
       image:product.img.url,
+      price:price,
       category:product.category,
       quantity:item
     })
+    toast.success(
+      'Product Added to cart',{
+        position:'bottom-right',
+        autoClose:2000,
+        theme:'dark'
+      }
+    )
   }
+  const getPriceForQuantity = (quantity) => {    
+    if(product){
+      const sortedPrices = product.price.slice().sort((a, b) => b.quantity - a.quantity);
+      const currentPrice = sortedPrices.find(item => item.quantity <= quantity);
+      if (currentPrice) {
+        const price =currentPrice.price.match(/\d+/);
+        setPrice(price*quantity)
+      }
+    }
+  }
+  
   useEffect(() => {
     axios.get(`/api/products/${`adb-butinaca`}`)
       .then(response => {
@@ -71,6 +93,9 @@ const ProductCard = () => {
         console.error('Error:', error);
       });
   }, [])
+  useEffect(()=>{
+    getPriceForQuantity(item)
+  },[item,product])
   return (
     <div>
       {
@@ -142,13 +167,16 @@ const ProductCard = () => {
                   }
                 </tbody>
               </table>
-              <div className="flex gap-5 flex-grow-0">
-                <div className='flex mt-10'>
+              <div className="mt-5">
+                <h3 className='text-xl font-light'>Total Amount: <span className='text-purple-600 font-bold'>{price}€</span></h3>
+              </div>
+              <div className="flex gap-5 flex-grow-0 mt-5">
+                <div className='flex'>
                   <button className='bg-violet-800 w-10 text-3xl h-10 text-center pb-1 font-extrabold' onClick={decrementItem} >-</button>
-                  <input type="number" className='bg-gray-200 text-black text-2xl w-16 h-10 text-center font-bold pt-1' value={item} onChange={(e) => { changeItem() }} />
+                  <input type="number" className='bg-gray-200 text-black text-2xl w-16 h-10 text-center font-bold pt-1' value={item} onChange={(e) => { changeItem(e.target.value) }} />
                   <button className='bg-violet-800 text-3xl w-10 h-10 text-center pb-1 font-extrabold' onClick={incrementItem} >+</button>
                 </div>
-                <button onClick={addToCartHandler} className='py-1 px-4 bg-gradient-to-b mt-10 font-bold from-violet-800 to-purple-500 hover:from-violet-900 hover:to-purple-600'>
+                <button onClick={addToCartHandler} className='py-1 px-4 bg-gradient-to-b font-bold from-violet-800 to-purple-500 hover:from-violet-900 hover:to-purple-600'>
                   Add To Cart
                 </button>
               </div>

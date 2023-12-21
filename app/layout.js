@@ -5,6 +5,7 @@ import Footer from '/Components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 import {GlobalProvider} from './GlobalProvider'
+import { ToastContainer} from 'react-toastify';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -36,9 +37,9 @@ export default function RootLayout({ children }) {
         </header>
         
         <main>
+        <ToastContainer/>
           {children}
         </main>
-        </GlobalProvider>
         
         <footer>
           <Footer img={img}/>
@@ -49,10 +50,11 @@ export default function RootLayout({ children }) {
           width={50}
           height={50}
           alt='telegram'
-            src="/assets/img/telegram.png"
+          src="/assets/img/telegram.png"
           />
           </Link>
         </div>
+          </GlobalProvider>
       </body>
     </html>
   )

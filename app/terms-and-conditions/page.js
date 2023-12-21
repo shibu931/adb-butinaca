@@ -2,7 +2,7 @@ import React from 'react'
 
 const page = () => {
     return (
-        <div className='text-white mt-10 lg:mx-20'>
+        <div className='text-white mt-10 lg:mx-20 mx-10'>
             <div className='bg-slate-900 p-5 md:py-10 md:px-20 rounded border-gray-800 border-2'>
                 <h1 className='text-3xl font-semibold mb-10 text-center'>TERMS AND CONDITIONS</h1>
                 <p className="mb-5">By submitting your order you confirm to us that you are aged 18 or over and that you are NOT making the order for a person under the ageof 18, nor for a public- or medical institution.</p>

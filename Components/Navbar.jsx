@@ -131,7 +131,7 @@ const navMenu =[
         slug:'',
         subMenu:[
             {
-                title: "Policy",
+                title: "Delivery Info",
                 className:'',
                 slug: "/delivery-info"
             },
