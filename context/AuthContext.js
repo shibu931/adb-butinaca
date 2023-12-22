@@ -12,6 +12,7 @@ export const AuthProvider = ({children})=>{
     const getUserDetails = async ()=>{
         const res = await axios.get('/api/users/user')
         const responseData ={...res.data.data}
+        console.log(res);
         setUser(responseData)
         setIsAuthenticated(true)
     }
@@ -19,7 +20,7 @@ export const AuthProvider = ({children})=>{
         try {
             getUserDetails()
         } catch (error) {
-            
+            console.log(error);
         }
     },[])
     return(
