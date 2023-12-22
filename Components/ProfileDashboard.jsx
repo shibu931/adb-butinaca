@@ -64,9 +64,9 @@ const ProfileDashboard = ({ openTab }) => {
         if(user._id)getAddress()
     },[user])
     return (
-        <div className='text-white mx-10 my-10 xl:mx-20 xl:my-20'>
+        <div className='text-white mx-4 md:mx-10 my-10 xl:mx-20 xl:my-20'>
             <Tabs variant='unstyled' className='flex gap-10 flex-wrap md:flex-nowrap' defaultIndex={tabIndex}>
-                <TabList className='flex flex-col w-60'>
+                <TabList className='flex flex-col w-full md:w-60'>
                     <Tab _selected={{ border: '2px solid white', }} className='py-2 px-10 bg-slate-900 rounded mb-2'>Profile</Tab>
                     <Tab _selected={{ border: '2px solid white', }} className='py-2 px-10 bg-slate-900 rounded mb-2'>Orders</Tab>
                     <Tab _selected={{ border: '2px solid white', }} className='py-2 px-10 bg-slate-900 rounded mb-2'>Address</Tab>
