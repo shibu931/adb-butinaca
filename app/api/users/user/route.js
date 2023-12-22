@@ -2,7 +2,6 @@ import {getDataFromToken} from '/utils/getDataFromToken'
 import { NextRequest,NextResponse } from 'next/server';
 import User from "/models/userModel"
 import connectToDB from "/utils/dbConnect";
-import Error from 'next/error';
 
 connectToDB();
 
