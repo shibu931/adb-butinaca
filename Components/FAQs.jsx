@@ -4,7 +4,7 @@ import { ChevronUpIcon } from '@heroicons/react/20/solid'
 
 export default function FAQs({ faqs }) {
     return (
-        <div className="w-full px-4 pt-16 text-white">
+        <div className="w-full md:px-4 pt-16 text-white">
             <h2 className='text-3xl text-center text-white-200'>Frequently Asked Questions(FAQs)</h2>
             <div className="ms-auto w-full max-w-3xl rounded-2xl md:px-10 py-5">
                 {

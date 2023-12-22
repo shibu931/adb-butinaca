@@ -8,7 +8,7 @@ const ContactUs = () => {
         e.preventDefault()
     }
     return (
-        <div className='text-white relative xl:max-w-6xl mx-4 md:mx-auto my-10 lg:my-20 mx-10'>
+        <div className='text-white relative xl:max-w-6xl mx-4 md:mx-auto my-10 lg:my-20'>
             <div className='glow'></div>
             <div className='p-5 md:py-10 md:px-20 rounded bg-gray-950 bg-opacity-75 border-purple-700 border'>
                 <div className='md:grid md:grid-cols-3 md:gap-10'>
