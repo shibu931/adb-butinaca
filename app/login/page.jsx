@@ -62,9 +62,7 @@ const Login = () => {
             theme:'dark'
           }
         )
-        setTimeout(() => {
-          router.push("/profile")
-        }, 2000);
+        router.push("/profile")
       }
     } catch (error) {
       toast.error(

@@ -16,6 +16,9 @@ const AdminPanel = ({pathname,id}) => {
   const handleTabClick = (tabNumber) => {
       setActiveTab(tabNumber);
   };
+  useEffect(()=>{
+    if(pathname && id) setOpenTab(pathname)
+  },[])
   return (
     <div className='max-w-10xl text-white my-10 mx-10'>
     <div className="grid lg:grid-cols-8 lg:gap-20">

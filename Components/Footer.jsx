@@ -14,8 +14,8 @@ const FooterLinks=[{
   title:'Contact Us',
   slug:'/contact-us'
 },{
-  title:'FAQs',
-  slug:'/faqs'
+  title:'Delivery Info',
+  slug:'/delivery-info'
 },{
   title:'Terms and Conditions',
   slug:'/terms-and-conditions'

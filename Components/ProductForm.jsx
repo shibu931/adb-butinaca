@@ -19,10 +19,35 @@ const ProductForm = ({ id }) => {
       { name: 'Research Chemicals' },
     ]
     const productSubCategory = [
-      { name: 'Cannabinoids' },
+      { name: 'arylcylohexylamines' },
+      { name: 'benzodiazepines' },
+      { name: 'benzofuran' },
+      { name: 'cannabinoids' },
+      { name: 'cathinonen' },
+      { name: 'cyclohexanol' },
+      { name: 'cyclopyrrolon' },
+      { name: 'amphetamines' },
+      { name: 'lysergamides' },
+      { name: 'nootropics' },
+      { name: 'phenethylamines' },
+      { name: 'tryptamines' },
+      { name: 'rc-liquids' },
+      { name: 'herbal-incense' },
+      { name: 'pellets' },
+      { name: 'blotters' },
+      { name: 'sarms' },
+      { name: '2mmc' },
+      { name: '2cmc' },
+      { name: 'hhc-shop' },
+      { name: 'sex-shop' },
+      { name: 'chems-library' },
     ]
     const [selectedCategory, setSelectedCategory] = useState(productCategory[0])
     const [selectedSubCategory, setSelectedSubCategory] = useState(productSubCategory[0])
+    const [price,setPrice] = useState({
+      quantity:'',
+      price:''
+    })
     const [progress, setProgress] = useState(0)
     const [file, setFile] = useState();
     const { edgestore } = useEdgeStore();
@@ -52,19 +77,17 @@ const ProductForm = ({ id }) => {
         price: price.value
       }
       let updatedProduct = { ...product }
-      const index = updatedProduct.price.findIndex((price) => price.quantity == priceKey.value);
+      const index = updatedProduct.price.findIndex((p) => p.quantity == price.quantity);
   
       if (index !== -1) {
         console.log(index)
-        updatedProduct.price[index].price = price.value;
+        updatedProduct.price[index].price = price.price;
       } else {
         console.log(index)
         updatedProduct.price.push(temp);
       }
-      updatedProduct.price.sort();
       setProduct(updatedProduct);
-      priceKey.value = 0,
-      price.value = ''
+      setPrice({quantity: '',price:''})
     }
     const editPrice = (event, item) => {
       event.preventDefault();
@@ -107,13 +130,9 @@ const ProductForm = ({ id }) => {
       }
     }
     const fetchData = async (id)=>{
-        const response = await axios.get(`/api/products/${id}`)
-        console.log(response.data)
+        const response = await axios.get(`/api/products/view/${id}`)
         setProduct({...response.data})
     }
-    useEffect(()=>{
-      setContent(product.description)
-    },[product])
     useEffect(()=>{
       if(id){
         fetchData(id)
@@ -161,8 +180,8 @@ const ProductForm = ({ id }) => {
           <div className="mb-5 flex flex-grow-0">
             <div className='w-full pe-5'>
               <label for="productSummary" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Product Price</label>
-              <input type="number" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-12 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 price-key" required />
-              <input type="text" id="productSlug" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 ms-4 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 price-field" placeholder="Enter Product Price" required
+              <input onChange={(e)=>{setPrice({...price,quantity:e.target.value})}} type="number" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-12 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 price-key" required />
+              <input onChange={(e)=>{setPrice({...price,price:e.target.value})}} type="text" id="productSlug" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 ms-4 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 price-field" placeholder="Enter Product Price" required
               />
             </div>
             <button className='px-4 py-2 mt-7 ms-auto bg-green-700 rounded' onClick={(event) => handlePriceButton(event)}>Add</button>

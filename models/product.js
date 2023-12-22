@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
     },
     price:[
         {
-            qunatity:{
+            quantity:{
                 type:Number
             },
             price:{

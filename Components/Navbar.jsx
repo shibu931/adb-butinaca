@@ -11,7 +11,7 @@ const navMenu =[
     {
         title:'Buy ADB Butinaca',
         className:'btn-primary rounded-sm',
-        slug:'/adb-butinaca'
+        slug:'/products/view/adb-butinaca'
     },
     {
         title:'Research Chemicals',
@@ -109,6 +109,16 @@ const navMenu =[
                 slug: "/products/sarms"
             }            
         ]
+    },
+    {
+        title:'2MMC',
+        className:'',
+        slug:'/products/2mmc',
+    },
+    {
+        title:'2CMC',
+        className:'',
+        slug:'/products/2cmc',
     },
     {
         title:'HHC Shop',

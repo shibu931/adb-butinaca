@@ -1,6 +1,10 @@
+'use client'
+import { useEffect, useState } from 'react'
 import FAQs from '/Components/FAQs'
 import ProductCard from '/Components/ProductCard'
 import Image from 'next/image'
+import ProductCardSkeleton from  '/Components/ProductCardSkeleton'
+import axios from 'axios'
 
 const faqs=[
   {
@@ -30,11 +34,28 @@ const faqs=[
   }
 ]
 
-export default async function Home() {
+export default function Home() {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [product,setProduct] = useState()
+  const fetchData = async ()=>{ 
+    try {
+            const data = await axios.get(`/api/products/view/adb-butinaca`)
+            setProduct({...data.data})
+             setIsLoaded(true)
+    } catch (error) {
+        console.log(error);
+    }
+  }  
+
+  useEffect(()=>{
+    fetchData()
+  },[])
   return (
     <>
       <section className='px-6 md:px-20'>
-        <ProductCard/>
+        {
+            isLoaded ? (<ProductCard product={product}/>) :(<ProductCardSkeleton/>)
+        }
       </section>
       <section className='px-6 md:px-20 mt-20'>
         <div className='grid grid-cols-1 lg:grid-cols-3'>

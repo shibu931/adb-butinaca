@@ -8,7 +8,8 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import AuthContext from '../context/AuthContext'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { countries } from 'countries-list';
-import { button } from '@nextui-org/react'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProfileDashboard = ({ openTab }) => {
     const [selectedCountry, setSelectedCountry] = useState('Spain')
@@ -46,11 +47,24 @@ const ProfileDashboard = ({ openTab }) => {
     const handleSubmit = async ()=>{
         try {
             setAddress({...address,country:selectedCountry})
-            console.log(address)
+            setAddress({...address,userId:user._id})
             const response = await axios.post('/api/users/address',address)
-            console.log(response)
+            toast.success(
+                'Address Added',{
+                  position:'bottom-center',
+                  autoClose:2000,
+                  theme:'dark'
+                }
+            )
+            setEdit(false)
         } catch (error) {
-            console.log(error);
+            toast.error(
+                'Something went wrong',{
+                  position:'bottom-center',
+                  autoClose:2000,
+                  theme:'dark'
+                }
+            )
         }
     }
     const getAddress =async ()=>{

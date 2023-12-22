@@ -8,7 +8,7 @@ connectToDB()
 export async function GET(request,{params}) {
     const {slug} = params
     try {
-        const products = await Product.find({subCategory:slug});
+        const products = await Product.findOne({slug:slug});
         if(products)
             return NextResponse.json(products,{status:200})
         else
