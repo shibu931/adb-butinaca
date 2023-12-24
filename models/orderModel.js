@@ -8,9 +8,13 @@ const OrderSchema = new mongoose.Schema({
     products: [
         {
             product: {
-                type: mongoose.Schema.Types.ObjectId,
+                type: mongoose.ObjectId,
                 ref: 'Product',
                 required: [true, 'Product ID is required'],
+            },
+            name: {
+                type: String,
+                required: [true, 'Product quantity is required'],
             },
             quantity: {
                 type: Number,
@@ -46,6 +50,6 @@ const OrderSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-const Order = mongoose.models.order || mongoose.model("order", CartSchema)
+const Order = mongoose.models.order || mongoose.model("order", OrderSchema)
 
 export default Order;

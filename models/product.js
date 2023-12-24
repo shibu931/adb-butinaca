@@ -51,6 +51,14 @@ const productSchema = new mongoose.Schema({
     },
     reviews:[
         {
+            customerName:{
+                type:String,
+                required:true
+            },
+            customerEmail:{
+                type:String,
+                required:true
+            },
             rating:{
                 type:Number,
                 required:true

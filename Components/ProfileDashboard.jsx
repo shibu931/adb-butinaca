@@ -1,6 +1,4 @@
 'use client'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
 import React, { useContext, useEffect, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
@@ -8,75 +6,48 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import AuthContext from '../context/AuthContext'
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import { countries } from 'countries-list';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios'
+
 
 const ProfileDashboard = ({ openTab }) => {
-    const [selectedCountry, setSelectedCountry] = useState('Spain')
+    const [selectedCountry, setSelectedCountry] = useState()
+    const { user, logout, address, setAddress, edit, getAddress, setEdit, postAddress } = useContext(AuthContext)
+    const [tabIndex, setTabIndex] = useState(openTab ? openTab : 0)
+    const [orders, setOrders] = useState()
     const countriesArray = Object.keys(countries).map((code) => ({
         code,
         name: countries[code].name,
         eu: countries[code].continent,
     }));
-    const euCountries = countriesArray.filter((country) => country.eu === 'EU');
-    const [edit, setEdit] = useState(false)
-    const { user } = useContext(AuthContext)
-    const router = useRouter()
-    const [tabIndex, setTabIndex] = useState(openTab ? openTab : 0)
-    const [address,setAddress] = useState({
-        street:'',
-        city:'',
-        state:'',
-        phoneNo:0,
-        zipCode:0,
-        country:'',
-        userId:user._id
-    })
-    const handleTabsChange = (index) => {
-        setTabIndex(index)
+    const getOrders = async () => {
+        const response = await axios.get(`/api/order/${user._id}`)
+        console.log(response);
+        setOrders(response.data)
     }
-    const logout = async () => {
-        try {
-            const response = await axios.get('/api/users/logout')
-            if (response.status == 200)
-                router.push('/login')
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    const handleSubmit = async ()=>{
-        try {
-            setAddress({...address,country:selectedCountry})
-            setAddress({...address,userId:user._id})
-            const response = await axios.post('/api/users/address',address)
-            toast.success(
-                'Address Added',{
-                  position:'bottom-center',
-                  autoClose:2000,
-                  theme:'dark'
+    useEffect(() => {
+        const fetchIPInfo = async () => {
+            try {
+                if (!address) {
+                    const response = await fetch(`https://ipinfo.io/json?token=${process.env.IP_INFO_TOKEN}`);
+                    const data = await response.json();
+                    const c = countriesArray.filter((country) => country.code === data.country)
+                    setSelectedCountry(c[0].name)
+                    setAddress({ ...address, city: data.city, state: data.region })
                 }
-            )
-            setEdit(false)
-        } catch (error) {
-            toast.error(
-                'Something went wrong',{
-                  position:'bottom-center',
-                  autoClose:2000,
-                  theme:'dark'
-                }
-            )
-        }
-    }
-    const getAddress =async ()=>{
-        const response= await axios.get(`/api/users/address/${user._id}`)
-        setAddress({...response.data})
-    }
-    useEffect(()=>{
-        console.log(address)
-    },[address])
-    useEffect(()=>{
-        if(user._id)getAddress()
-    },[user])
+            } catch (error) {
+                console.error('Error fetching IP information:', error);
+            }
+        };
+
+        fetchIPInfo();
+    }, []);
+    useEffect(() => {
+        setSelectedCountry(address.country)
+    }, [address])
+    useEffect(() => {
+        getAddress()
+        getOrders()
+    }, [user])
     return (
         <div className='text-white mx-4 md:mx-10 my-10 xl:mx-20 xl:my-20'>
             <Tabs variant='unstyled' className='flex gap-10 flex-wrap md:flex-nowrap' defaultIndex={tabIndex}>
@@ -84,7 +55,7 @@ const ProfileDashboard = ({ openTab }) => {
                     <Tab _selected={{ border: '2px solid white', }} className='py-2 px-10 bg-slate-900 rounded mb-2'>Profile</Tab>
                     <Tab _selected={{ border: '2px solid white', }} className='py-2 px-10 bg-slate-900 rounded mb-2'>Orders</Tab>
                     <Tab _selected={{ border: '2px solid white', }} className='py-2 px-10 bg-slate-900 rounded mb-2'>Address</Tab>
-                    <button className='py-2 px-10 bg-red-900 rounded mb-2' onClick={logout}>Logout</button>
+                    <button className='py-2 px-10 bg-red-900 rounded mb-2' onClick={() => { logout() }}>Logout</button>
                 </TabList>
                 <TabPanels className='bg-slate-900 p-10 rounded'>
                     <TabPanel>
@@ -101,7 +72,7 @@ const ProfileDashboard = ({ openTab }) => {
                                 <tr>
                                     <td><strong>Email:</strong></td>
                                     <td className='text-md'>{user.email}</td>
-                                    <td className='text-sm pt-1'>{user.isVerified ? (<span className='text-green-600'>Verified</span>) : (<button onClick={(e) => { verifyEmail(e, user.email) }} className='underline underline-offset-2'>verify</button>)}</td>
+                                    {/* <td className='text-sm pt-1'>{user.isVerified ? (<span className='text-green-600'>Verified</span>) : (<button onClick={(e) => { verifyEmail(e, user.email) }} className='underline underline-offset-2'>verify</button>)}</td> */}
                                 </tr>
                                 <tr>
                                     <td><strong>Telegram:</strong></td>
@@ -111,75 +82,67 @@ const ProfileDashboard = ({ openTab }) => {
                         </table>
                     </TabPanel>
                     <TabPanel className='order-table overflow-x-auto p-2'>
-                        <div className='flex w-[660px] lg:w-full justify-evenly mb-2 bg-slate-800 rounded outline outline-1 p-2'>
-                            <div className=' rounded px-2 mx-2'>
-                                Sr.no
-                            </div>
-                            <div className=' rounded px-2 mx-2'>
-                                Product Name
-                            </div>
-                            <div className=' rounded px-2 mx-2'>
-                                Quantity
-                            </div>
-                            <div className=' rounded px-4 mx-2'>
-                                Payment
-                            </div>
-                            <div className=' rounded px-4 mx-2'>
-                                Shipping Status
-                            </div>
-                            <div className=' rounded px-4 mx-2'>
-                                Order Status
-                            </div>
-                            <div className=' rounded px-4 mx-2'>
-                                Amount
-                            </div>
-                        </div>
-                        <div className='flex w-[660px] lg:w-full justify-evenly mb-2 bg-slate-800 rounded  p-2'>
-                            <div className=' rounded px-2 mx-2'>
-                                1
-                            </div>
-                            <div className=' rounded px-2 mx-2'>
-                                Adb Butinaca
-                            </div>
-                            <div className=' rounded px-2 mx-2'>
-                                2
-                            </div>
-                            <div className=' rounded px-4 mx-2'>
-                                Pending
-                            </div>
-                            <div className=' rounded px-4 mx-2'>
-                                Not Shipped
-                            </div>
-                            <div className=' rounded px-4 mx-2'>
-                                Pending
-                            </div>
-                            <div className=' rounded px-4 mx-2'>
-                                200
-                            </div>
-                        </div>
+                        <table className='table-custom'>
+                            <thead className='mb-2 bg-slate-800 rounded outline outline-1 p-2'>
+                                <tr>
+                                    <td>Sr.no</td>
+                                    <td>Product</td>
+                                    <td>Quantity</td>
+                                    <td>Payment</td>
+                                    <td>Shipping Status</td>
+                                    <td>Order Status</td>
+                                    <td>Amount</td>
+                                </tr>
+                            </thead>
+                            <tbody className='mt-2'>
+                                {
+                                    orders ? orders.map((order, index) => (
+                                        <tr className='bg-slate-800 rounded p-2 border-b-2 mb-2'>
+                                            <td className='border-e-2 border-s-2'>{index+1}</td>
+                                            <td className='border-e-2'>
+                                                {order.products.map((product, index) => (
+                                                    <p key={index}>{product.name}</p>
+                                                ))}
+                                            </td>
+                                            <td className='border-e-2'>
+                                                {order.products.map((product, index) => (
+                                                    <p key={index}>{product.quantity}</p>
+                                                ))}
+                                            </td>
+                                            <td className='border-e-2'>{order.paymentStatus}</td>
+                                            <td className='border-e-2'>{order.shippingStatus}</td>
+                                            <td className='border-e-2'>{order.orderStatus}</td>
+                                            <td className='border-e-2'>{order.totalAmount}</td>
+                                        </tr>
+                                    ))
+                                        :
+                                        (<h3 className='text-2xl font-semibold text-center mt-5'>There are no orders</h3>)
+                                }
+                            </tbody>
+                        </table>
                     </TabPanel>
                     <TabPanel>
                         <h3 className='text-xl font-semibold text-center'>Address</h3>
                         <form action="">
                             <div className="mb-2">
                                 <label htmlFor="" className='font-semibold me-4'>Street:</label>
-                                <input type="text" onChange={(e)=>{setAddress({...address,street:e.target.value})}} value={address?.street} className={edit ? 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' : 'bg-transparent'} disabled={!edit} />
+                                <input type="text" onChange={(e) => { setAddress({ ...address, street: e.target.value }) }} value={address?.street} className={edit ? 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' : 'bg-transparent'} disabled={!edit} />
                             </div>
                             <div className="mb-2">
                                 <label htmlFor="" className='font-semibold me-4'>City:</label>
-                                <input type="text" onChange={(e)=>{setAddress({...address,city:e.target.value})}} value={address?.city} className={edit ? 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' : 'bg-transparent'} disabled={!edit} />
+                                <input type="text" onChange={(e) => { setAddress({ ...address, city: e.target.value }) }} value={address?.city} className={edit ? 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' : 'bg-transparent'} disabled={!edit} />
                             </div>
                             <div className="mb-2">
-                                <label htmlFor="" className='font-semibold me-4'>State:</label>
-                                <input type="text" onChange={(e)=>{setAddress({...address,state:e.target.value})}} value={address?.state} className={edit ? 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' : 'bg-transparent'} disabled={!edit} />
+                                <label htmlFor="" className='font-semibold me-4'>Provision:</label>
+                                <input type="text" onChange={(e) => { setAddress({ ...address, state: e.target.value }) }} value={address?.state} className={edit ? 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' : 'bg-transparent'} disabled={!edit} />
                             </div>
                             <div className="mb-2">
                                 <label htmlFor="" className='font-semibold me-4'>Phone Number:</label>
-                                <input type="number" onChange={(e)=>{setAddress({...address,phoneNo:e.target.value})}} value={address?.phoneNo} className={edit ? 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' : 'bg-transparent'} disabled={!edit} />
+                                <input type="number" onChange={(e) => { setAddress({ ...address, phoneNo: e.target.value }) }} value={address?.phoneNo} className={edit ? 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' : 'bg-transparent'} disabled={!edit} />
                             </div>
                             <div className="mb-2">
                                 <label htmlFor="" className='font-semibold me-4'>ZipCode:</label>
-                                <input type="zipCode" onChange={(e)=>{setAddress({...address,zipCode:e.target.value})}} value={address?.zipCode} className={edit ? 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' : 'bg-transparent'} disabled={!edit} />
+                                <input type="zipCode" onChange={(e) => { setAddress({ ...address, zipCode: e.target.value }) }} value={address?.zipCode} className={edit ? 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' : 'bg-transparent'} disabled={!edit} />
                             </div>
                             <div className="mb-2 flex">
                                 <label htmlFor="" className="font-semibold mt-2 me-4">Country:</label>
@@ -201,7 +164,7 @@ const ProfileDashboard = ({ openTab }) => {
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-slate-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                                                {euCountries.map((country, index) => (
+                                                {countriesArray.map((country, index) => (
                                                     <Listbox.Option
                                                         key={index}
                                                         className={({ active }) =>
@@ -234,7 +197,7 @@ const ProfileDashboard = ({ openTab }) => {
                             </div>
                             {
                                 edit ?
-                                    (<button className='py-2 px-4 btn-primary rounded' onClick={(e) => { e.preventDefault(); handleSubmit() }}>Save</button>)
+                                    (<button className='py-2 px-4 btn-primary rounded' onClick={(e) => { e.preventDefault(); postAddress(selectedCountry) }}>Save</button>)
                                     :
                                     (<button className='py-2 px-4 btn-primary rounded' onClick={(e) => { e.preventDefault(); setEdit(!edit) }}>Update</button>)
                             }

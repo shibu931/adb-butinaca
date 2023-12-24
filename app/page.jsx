@@ -57,6 +57,7 @@ export default function Home() {
             isLoaded ? (<ProductCard product={product}/>) :(<ProductCardSkeleton/>)
         }
       </section>
+
       <section className='px-6 md:px-20 mt-20'>
         <div className='grid grid-cols-1 lg:grid-cols-3'>
           <div className='mx-auto'>

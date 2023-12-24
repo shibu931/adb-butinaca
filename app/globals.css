@@ -116,6 +116,7 @@ input::-webkit-inner-spin-button {
 }
 
 .table-custom {
+  display: block;
   margin-bottom: 1rem;
   background-color: transparent;
 }

@@ -6,13 +6,13 @@ import { ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
 
 const FooterLinks=[{
   title:'Home',
-  slug:'/home'
+  slug:'/'
 },{
   title:'About Us',
   slug:'/about-us'
 },{
   title:'Contact Us',
-  slug:'/contact-us'
+  slug:'/contact'
 },{
   title:'Delivery Info',
   slug:'/delivery-info'

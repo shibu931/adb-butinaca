@@ -6,13 +6,15 @@ export function middleware(request) {
     const isLoggedIn = Boolean(request.cookies.get('token')?.value);
 
     if (isPublicPath && isLoggedIn) {
-        // Redirect logged-in user trying to access login, signup, or verifyemail
         return NextResponse.redirect(new URL('/profile', request.nextUrl));
     }
 
     if (!isPublicPath && !isLoggedIn) {
-        // Redirect non-logged-in user trying to access profile or admin
         return NextResponse.redirect(new URL('/login', request.nextUrl));
+    }
+
+    if (path === '/admin' && !isAdmin) {
+      return NextResponse.redirect(new URL('/profile', request.nextUrl));
     }
 
 }

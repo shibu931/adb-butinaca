@@ -27,7 +27,7 @@ const ProductPage = ({ params }) => {
           :
           (
             <div className='flex flex-col justify-center'>
-              <h2 className='text-3xl md:text-4xl font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>Currently We don't have products in this category</span></h2>
+              <h2 className='text-3xl md:text-4xl font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>Currently, We don't have products in this category</span></h2>
               <h4 className='text-xl md:text-2xl mt-2 text-center font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>Products will be added soon!</span></h4>
             </div>
           )

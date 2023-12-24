@@ -55,6 +55,7 @@ const Login = () => {
       if(validateForm()){
         const response = await axios.post("/api/users/login", user)
         getUserDetails()
+        router.push("/profile")
         toast.success(
           'Login Successfull redirecting',{
             position:'bottom-center',
@@ -62,7 +63,6 @@ const Login = () => {
             theme:'dark'
           }
         )
-        router.push("/profile")
       }
     } catch (error) {
       toast.error(

@@ -5,21 +5,15 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import { Tab } from '@headlessui/react'
 import {
   Table,
-  Thead,
   Tbody,
-  Tfoot,
   Tr,
-  Th,
   Td,
-  TableCaption,
   TableContainer,
 } from '@chakra-ui/react'
 import ProductDescription from './ProductDescription';
 import ReviewCard from './ReviewCard';
-import axios from 'axios';
-import ProductCardSkeleton from './ProductCardSkeleton';
 import CartContext from '../context/CartContext'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function classNames(...classes) {
@@ -31,7 +25,7 @@ const ProductCard = ({product}) => {
   const [item, setItem] = useState(1)
   const [price, setPrice] = useState(25);
   const decrementItem = () => {
-    if (item > 0) setItem(item - 1);
+    if (item > 1) setItem(item - 1);
   }
   const incrementItem = () => {
     if (item < 1000) setItem(item + 1);
@@ -86,17 +80,6 @@ const ProductCard = ({product}) => {
             <div className='text-gray-100 flex flex-col justify-center flex-grow-0'>
               <span className='text-gray-300 text-sm md:text-lg'>{product.subCategory}</span>
               <h1 className='text-4xl md:text-6xl font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>{product.name}</span></h1>
-              <div className="flex mt-2">
-                <StarIcon className="h-6 w-6 text-yellow-500" />
-                <StarIcon className="h-6 w-6 text-yellow-500" />
-                <StarIcon className="h-6 w-6 text-yellow-500" />
-                <StarIcon className="h-6 w-6 text-yellow-500" />
-                <StarIcon className="h-6 w-6 text-yellow-500" />
-              </div>
-              <p
-                className='mb-5'
-              >123 <span className='bg-yellow-400 font-extrabold text-transparent bg-clip-text '>Reviews</span>
-              </p>
               {/* &#x20AC; */}
               <p className='text-md mb-5'>{product.summary}</p>
               <table class="min-w-full text-left text-sm font-light md:block hidden">
@@ -141,7 +124,7 @@ const ProductCard = ({product}) => {
                 </tbody>
               </table>
               <div className="mt-5">
-                <h3 className='text-xl font-light'>Total Amount: <span className='text-purple-600 font-bold'>{price}€</span></h3>
+                <h3 className='text-xl font-light'>Total Amount: <span className='text-purple-600 font-bold'>€{price}</span></h3>
               </div>
               <div className="flex gap-5 flex-grow-0 mt-5">
                 <div className='flex'>
@@ -211,7 +194,7 @@ const ProductCard = ({product}) => {
                   </div>
                 </Tab.Panel>
                 <Tab.Panel>
-                  <ReviewCard />
+                  <ReviewCard id={product._id}/>
                 </Tab.Panel>
               </Tab.Panels>
             </Tab.Group>
