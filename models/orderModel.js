@@ -29,9 +29,9 @@ const OrderSchema = new mongoose.Schema({
     shipping:{
         type:String,
         enum:[
-            'Standarad',
-            'Express',
-            'Overnight'
+            'Not Shipped',
+            'Shipped',
+            'Delivered'
         ]
     },
     paymentStatus:{

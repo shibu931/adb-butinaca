@@ -11,22 +11,34 @@ export async function POST(req) {
         const reqBody = await req.json()
         const { street,city,phoneNo,state,zipCode,country,userId } = reqBody
 
-        const newAddress = new Address({
-            street,
-            city,
-            phoneNo,
-            state,
-            zipCode,
-            country,
-            userId
-        })
-
-        const savedAddress = await newAddress.save()
+        const existingAddress = await Address.findOne({userId:userId});
+        let updatedAddress;
+        if(existingAddress){
+            existingAddress.street = street;
+            existingAddress.city = city;
+            existingAddress.phoneNo = phoneNo;
+            existingAddress.state = state;
+            existingAddress.zipCode = zipCode;
+            existingAddress.country = country;
+            updatedAddress = await Address.findByIdAndUpdate(existingAddress._id,existingAddress,{new:true})
+        }else{
+            const newAddress = new Address({
+                street,
+                city,
+                phoneNo,
+                state,
+                zipCode,
+                country,
+                userId
+            })
+    
+            updatedAddress = await newAddress.save()
+        }
 
         return NextResponse.json({
             message: "Address created successfully",
             success: true,
-            savedAddress
+            updatedAddress
         })
 
     } catch (error) {

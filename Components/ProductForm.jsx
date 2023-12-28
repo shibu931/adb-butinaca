@@ -104,7 +104,6 @@ const ProductForm = ({ id }) => {
       setProduct(updatedProduct)
     }
   
-  
     const submitForm = (e) => {
       e.preventDefault()
       const data = { ...product }
@@ -132,6 +131,7 @@ const ProductForm = ({ id }) => {
     const fetchData = async (id)=>{
         const response = await axios.get(`/api/products/view/${id}`)
         setProduct({...response.data})
+        setContent(response.data.description)
     }
     useEffect(()=>{
       if(id){

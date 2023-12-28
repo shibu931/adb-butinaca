@@ -8,7 +8,6 @@ export async function POST(req){
     try {
         const reqBody = await req.json()
         const {token} = reqBody
-        console.log(token)
         
         const user =await User.findOne({verifyToken:token,
             verifyTokenExpiry:{$gt:Date.now()}

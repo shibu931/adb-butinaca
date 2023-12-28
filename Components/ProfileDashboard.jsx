@@ -1,61 +1,100 @@
 'use client'
-import React, { useContext, useEffect, useState } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import { Fragment } from 'react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import AuthContext from '../context/AuthContext'
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import React, { useContext, useEffect, useState, Fragment } from 'react';
+import { Listbox, Transition } from '@headlessui/react';
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
+import AuthContext from '../context/AuthContext';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import { countries } from 'countries-list';
-import axios from 'axios'
-
+import axios from 'axios';
 
 const ProfileDashboard = ({ openTab }) => {
-    const [selectedCountry, setSelectedCountry] = useState()
-    const { user, logout, address, setAddress, edit, getAddress, setEdit, postAddress } = useContext(AuthContext)
-    const [tabIndex, setTabIndex] = useState(openTab ? openTab : 0)
-    const [orders, setOrders] = useState()
+    const [selectedCountry, setSelectedCountry] = useState();
+    const { user, logout, address, setAddress, edit, getAddress, setEdit, postAddress } = useContext(AuthContext);
+    const [tabIndex, setTabIndex] = useState(openTab || 0);
+
+    const [orders, setOrders] = useState();
     const countriesArray = Object.keys(countries).map((code) => ({
         code,
         name: countries[code].name,
         eu: countries[code].continent,
     }));
-    const getOrders = async () => {
-        const response = await axios.get(`/api/order/${user._id}`)
-        console.log(response);
-        setOrders(response.data)
-    }
-    useEffect(() => {
-        const fetchIPInfo = async () => {
-            try {
-                if (!address) {
-                    const response = await fetch(`https://ipinfo.io/json?token=${process.env.IP_INFO_TOKEN}`);
-                    const data = await response.json();
-                    const c = countriesArray.filter((country) => country.code === data.country)
-                    setSelectedCountry(c[0].name)
-                    setAddress({ ...address, city: data.city, state: data.region })
-                }
-            } catch (error) {
-                console.error('Error fetching IP information:', error);
-            }
-        };
 
-        fetchIPInfo();
+    const fetchData = async () => {
+        try {
+            if (!address.userId) {
+                const response = await fetch(`https://ipinfo.io/json?token=${process.env.NEXT_PUBLIC_IP_INFO_TOKEN}`);
+                const data = await response.json();
+                const c = countriesArray.find((country) => country.code === data.country);
+                setSelectedCountry(c.name);
+                setAddress({ ...address, city: data.city, state: data.region });
+            }
+        } catch (error) {
+            console.error('Error fetching IP information:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
     }, []);
+
+    const RenderCountryOptions = () => {
+        return countriesArray.map((country, index) => (
+            <Listbox.Option
+                key={index}
+                className={({ active }) =>
+                    `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-slate-700 text-slate-200' : 'text-white'}`
+                }
+                value={country.name}
+            >
+                {({ selected }) => (
+                    <>
+                        <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>{country.name}</span>
+                        {selectedCountry && (
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                            </span>
+                        )}
+                    </>
+                )}
+            </Listbox.Option>
+        ));
+    };
+
+    const getOrders = async () => {
+        try {
+            if(user._id){
+                const response = await axios.get(`/api/order/${user._id}`);
+                setOrders(response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        }
+    };
+
     useEffect(() => {
-        setSelectedCountry(address.country)
-    }, [address])
-    useEffect(() => {
-        getAddress()
-        getOrders()
-    }, [user])
+        setSelectedCountry(address?.country);
+    }, [address]);
+
+    useEffect(()=>{
+        getOrders();
+    },[user])
+
     return (
-        <div className='text-white mx-4 md:mx-10 my-10 xl:mx-20 xl:my-20'>
-            <Tabs variant='unstyled' className='flex gap-10 flex-wrap md:flex-nowrap' defaultIndex={tabIndex}>
-                <TabList className='flex flex-col w-full md:w-60'>
-                    <Tab _selected={{ border: '2px solid white', }} className='py-2 px-10 bg-slate-900 rounded mb-2'>Profile</Tab>
-                    <Tab _selected={{ border: '2px solid white', }} className='py-2 px-10 bg-slate-900 rounded mb-2'>Orders</Tab>
-                    <Tab _selected={{ border: '2px solid white', }} className='py-2 px-10 bg-slate-900 rounded mb-2'>Address</Tab>
-                    <button className='py-2 px-10 bg-red-900 rounded mb-2' onClick={() => { logout() }}>Logout</button>
+        <div className="text-white mx-4 md:mx-10 my-10 xl:mx-20 xl:my-20">
+            <Tabs variant="unstyled" className="flex gap-10 flex-wrap md:flex-nowrap" defaultIndex={tabIndex}>
+                <TabList className="flex flex-col w-full md:w-60">
+                    <Tab _selected={{ border: '2px solid white' }} className="py-2 px-10 bg-slate-900 rounded mb-2">
+                        Profile
+                    </Tab>
+                    <Tab _selected={{ border: '2px solid white' }} className="py-2 px-10 bg-slate-900 rounded mb-2">
+                        Orders
+                    </Tab>
+                    <Tab _selected={{ border: '2px solid white' }} className="py-2 px-10 bg-slate-900 rounded mb-2">
+                        Address
+                    </Tab>
+                    <button className="py-2 px-10 bg-red-900 rounded mb-2" onClick={() => logout()}>
+                        Logout
+                    </button>
                 </TabList>
                 <TabPanels className='bg-slate-900 p-10 rounded'>
                     <TabPanel>
@@ -82,44 +121,46 @@ const ProfileDashboard = ({ openTab }) => {
                         </table>
                     </TabPanel>
                     <TabPanel className='order-table overflow-x-auto p-2'>
-                        <table className='table-custom'>
-                            <thead className='mb-2 bg-slate-800 rounded outline outline-1 p-2'>
-                                <tr>
-                                    <td>Sr.no</td>
-                                    <td>Product</td>
-                                    <td>Quantity</td>
-                                    <td>Payment</td>
-                                    <td>Shipping Status</td>
-                                    <td>Order Status</td>
-                                    <td>Amount</td>
-                                </tr>
-                            </thead>
-                            <tbody className='mt-2'>
-                                {
-                                    orders ? orders.map((order, index) => (
-                                        <tr className='bg-slate-800 rounded p-2 border-b-2 mb-2'>
-                                            <td className='border-e-2 border-s-2'>{index+1}</td>
-                                            <td className='border-e-2'>
-                                                {order.products.map((product, index) => (
-                                                    <p key={index}>{product.name}</p>
-                                                ))}
-                                            </td>
-                                            <td className='border-e-2'>
-                                                {order.products.map((product, index) => (
-                                                    <p key={index}>{product.quantity}</p>
-                                                ))}
-                                            </td>
-                                            <td className='border-e-2'>{order.paymentStatus}</td>
-                                            <td className='border-e-2'>{order.shippingStatus}</td>
-                                            <td className='border-e-2'>{order.orderStatus}</td>
-                                            <td className='border-e-2'>{order.totalAmount}</td>
+                        {
+                            orders ?
+                                (<table className='table-custom'>
+                                    <thead className='mb-2 bg-slate-800 rounded outline-gray-600 outline outline-1 p-2'>
+                                        <tr>
+                                            <td>Sr.no</td>
+                                            <td>Product</td>
+                                            <td>Quantity</td>
+                                            <td>Payment</td>
+                                            <td>Shipping Status</td>
+                                            <td>Order Status</td>
+                                            <td>Amount</td>
                                         </tr>
-                                    ))
-                                        :
-                                        (<h3 className='text-2xl font-semibold text-center mt-5'>There are no orders</h3>)
-                                }
-                            </tbody>
-                        </table>
+                                    </thead>
+                                    <tbody className='mt-2'>
+                                        {orders.map((order, index) => (
+                                            <tr className='bg-slate-800 rounded p-2 border-gray-600 border-b-2 mb-2'>
+                                                <td className='border-e-2 border-gray-600 border-s-2'>{index + 1}</td>
+                                                <td className='border-e-2 border-gray-600'>
+                                                    {order.products.map((product, index) => (
+                                                        <p key={index}>{product.name}</p>
+                                                    ))}
+                                                </td>
+                                                <td className='border-e-2 border-gray-600'>
+                                                    {order.products.map((product, index) => (
+                                                        <p key={index}>{product.quantity}</p>
+                                                    ))}
+                                                </td>
+                                                <td className='border-e-2 border-gray-600'>{order.paymentStatus}</td>
+                                                <td className='border-e-2 border-gray-600'>{order.shippingStatus}</td>
+                                                <td className='border-e-2 border-gray-600'>{order.orderStatus}</td>
+                                                <td className='border-e-2 border-gray-600'>{order.totalAmount}</td>
+                                            </tr>
+                                        ))
+                                        }
+                                    </tbody>
+                                </table>)
+                                :
+                                (<h3 className='text-2xl font-semibold text-center mt-5'>There are no orders</h3>)
+                        }
                     </TabPanel>
                     <TabPanel>
                         <h3 className='text-xl font-semibold text-center'>Address</h3>
@@ -164,7 +205,8 @@ const ProfileDashboard = ({ openTab }) => {
                                             leaveTo="opacity-0"
                                         >
                                             <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-md bg-slate-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                                                {countriesArray.map((country, index) => (
+                                                <RenderCountryOptions/>
+                                                {/* {countriesArray.map((country, index) => (
                                                     <Listbox.Option
                                                         key={index}
                                                         className={({ active }) =>
@@ -189,7 +231,7 @@ const ProfileDashboard = ({ openTab }) => {
                                                             </>
                                                         )}
                                                     </Listbox.Option>
-                                                ))}
+                                                ))} */}
                                             </Listbox.Options>
                                         </Transition>
                                     </div>
@@ -209,7 +251,7 @@ const ProfileDashboard = ({ openTab }) => {
                 </TabPanels>
             </Tabs>
         </div>
-    )
-}
+    );
+};
 
-export default ProfileDashboard
+export default ProfileDashboard;

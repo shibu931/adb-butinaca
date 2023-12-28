@@ -1,100 +1,132 @@
-'use client'
-import { createContext,useState,useEffect } from 'react'
+'use client';
+import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({children})=>{
-    const [isAuthenticated,setIsAuthenticated] = useState(false)
-    const [edit, setEdit] = useState(false)
-    const [user,setUser] = useState({})
-    const [error,setError] = useState(null)
-    const router = useRouter()
-    const [address,setAddress] = useState({
-        street:'',
-        city:'',
-        state:'',
-        phoneNo:0,
-        zipCode:0,
-        country:'',
-        userId:user._id
-    })
+export const AuthProvider = ({ children }) => {
+
+    const [authState, setAuthState] = useState({
+        isAuthenticated: false,
+        edit: false,
+        user: {},
+        error: null,
+        address: {
+            street: '',
+            city: '',
+            state: '',
+            phoneNo: 0,
+            zipCode: 0,
+            country: '',
+            userId: '',
+        },
+    });
+
+    const router = useRouter();
+
+    const toastConfig = {
+        position: 'bottom-center',
+        autoClose: 2000,
+        theme: 'dark',
+    };
+
     const logout = async () => {
         try {
-            const response = await axios.get('/api/users/logout')
-            if (response.status == 200)
-                router.push('/login')
-                setUser({})
+            const response = await axios.get('/api/users/logout');
+            if (response.status === 200) {
+                router.push('/login');
+                setAuthState((prevState) => ({ ...prevState, user: {} }));
+            }
         } catch (error) {
+            console.error(error);
         }
-    }
-    const postAddress = async (selectedCountry)=>{
+    };
+
+    const postAddress = async (selectedCountry) => {
         try {
-            setAddress({...address,country:selectedCountry})
-            setAddress({...address,userId:user._id})
-            const response = await axios.post('/api/users/address',address)
-            toast.success(
-                'Address Added',{
-                  position:'bottom-center',
-                  autoClose:2000,
-                  theme:'dark'
-                }
-            )
-            setEdit(false)
+            const updatedAddress = { ...authState.address, country: selectedCountry, userId: authState.user._id };
+            setAddress(updatedAddress);
+
+            const response = await axios.post('/api/users/address', updatedAddress);
+            toast.success('Address Added', toastConfig);
+            setAuthState((prevState) => ({ ...prevState, edit: false }));
         } catch (error) {
-            setError(error)
-            toast.error(
-                'Something went wrong',{
-                  position:'bottom-center',
-                  autoClose:2000,
-                  theme:'dark'
-                }
-            )
+            setError(error);
+            toast.error('Something went wrong', toastConfig);
         }
-    }
-    const getAddress =async ()=>{
-        if(user._id){
-            const response= await axios.get(`/api/users/address/${user._id}`)
-            setAddress({...response.data})
+    };
+
+    const getAddress = async () => {
+        if (authState.user._id) {
+            try {
+                const response = await axios.get(`/api/users/address/${authState.user._id}`);
+                setAddress({ ...response.data });
+            } catch (error) {
+                console.error(error);
+            }
         }
-    }
-    const getUserDetails = async ()=>{
-        const res = await axios.get('/api/users/user')
-        const responseData ={...res.data.data}
-        setUser(responseData)
-        setIsAuthenticated(true)
-    }
-    useEffect(()=>{
+    };
+
+    const getUserDetails = async () => {
         try {
-            getUserDetails()
+            const authResponse = await axios.get('/api/check-auth');
+            const isAuthenticated = authResponse.data.isAuthenticated;
+
+            await Promise.all([
+                setAuthState((prevState) => ({ ...prevState, isAuthenticated })),
+                isAuthenticated &&
+                    axios.get('/api/users/user')
+                    .then(userResponse => {
+                        const responseData = userResponse.data.data;
+                        setAuthState((prevState) => ({ ...prevState, user: responseData, isAuthenticated: true }));
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user data:', error);
+                    })
+            ]);
         } catch (error) {
+            console.error(error);
         }
-    },[])
-    useEffect(()=>{
-        getAddress()
-    },[user])
-    return(
+    };
+
+    const setAddress = (updatedAddress) => {
+        setAuthState((prevState) => ({ ...prevState, address: updatedAddress }));
+    };
+
+    const setError = (error) => {
+        setAuthState((prevState) => ({ ...prevState, error }));
+    };
+
+    const setEdit = (edit) => {
+        setAuthState((prevState) => ({ ...prevState, edit }));
+    };
+
+    useEffect(() => {
+        getUserDetails();
+    }, []);
+    
+    useEffect(() => {
+        getAddress();
+    }, [authState.user._id]);
+
+    return (
         <AuthContext.Provider
             value={{
-                user,
-                error,
+                ...authState,
                 getUserDetails,
-                address,
                 getAddress,
-                edit,
-                setAddress,
                 postAddress,
                 logout,
+                setAddress,
                 setEdit,
-                isAuthenticated
             }}
         >
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};
 
 export default AuthContext;

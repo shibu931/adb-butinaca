@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import ProductList from '/Components/ProductList'
 import ProductForm from '/Components/ProductForm'
-import { useRouter } from 'next/router';
 
 const AdminPanel = ({pathname,id}) => {
     const product = {
