@@ -79,6 +79,7 @@ export const AuthProvider = ({ children }) => {
 
             await Promise.all([
                 setAuthState((prevState) => ({ ...prevState, isAuthenticated })),
+                isAuthenticated &&
                     axios.get('/api/users/user')
                     .then(userResponse => {
                         console.log("Getting user deatils");

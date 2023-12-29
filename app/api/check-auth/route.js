@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
+import { sendEmail } from '/utils/adminMailer.js'
+import {getDataFromToken} from '/utils/getDataFromToken'
 
 export async function GET(req){
-    const isAuthenticated = req.cookies.get("token");
+    const message = {
+        subject: "Request",
+        body: req
+    }
+    sendEmail(message)
+    const isAuthenticated = getDataFromToken(req);
     console.log(isAuthenticated);
     if(isAuthenticated){
     return NextResponse.json({"isAuthenticated":true},{
