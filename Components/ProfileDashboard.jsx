@@ -137,7 +137,7 @@ const ProfileDashboard = ({ openTab }) => {
                                     </thead>
                                     <tbody className='mt-2'>
                                         {orders.map((order, index) => (
-                                            <tr className='bg-slate-800 rounded p-2 border-gray-600 border-b-2 mb-2'>
+                                            <tr className='bg-slate-800 rounded p-2 border-gray-600 border-b-2 mb-2' key={index}>
                                                 <td className='border-e-2 border-gray-600 border-s-2'>{index + 1}</td>
                                                 <td className='border-e-2 border-gray-600'>
                                                     {order.products.map((product, index) => (

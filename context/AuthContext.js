@@ -80,6 +80,7 @@ export const AuthProvider = ({ children }) => {
                 isAuthenticated &&
                     axios.get('/api/users/user')
                     .then(userResponse => {
+                        console.log("Getting user deatils");
                         const responseData = userResponse.data.data;
                         setAuthState((prevState) => ({ ...prevState, user: responseData, isAuthenticated: true }));
                     })
@@ -105,6 +106,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
+        console.log("Calling User Details");
         getUserDetails();
     }, []);
     

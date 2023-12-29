@@ -4,8 +4,8 @@ import Navbar from '/Components/Navbar'
 import Footer from '/Components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
-import {GlobalProvider} from './GlobalProvider'
-import { ToastContainer} from 'react-toastify';
+import { GlobalProvider } from './GlobalProvider'
+import { ToastContainer } from 'react-toastify';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,46 +15,46 @@ export const metadata = {
 }
 
 const img = {
-  logo:{
-    path:'/assets/img/logo.png',
-    alt:'ADB Butinaca'
+  logo: {
+    path: '/assets/img/logo.png',
+    alt: 'ADB Butinaca'
   },
-  user:'/assets/img/user-icon.png',
-  cart:'/assets/img/cart-icon.png',
+  user: '/assets/img/user-icon.png',
+  cart: '/assets/img/cart-icon.png',
 }
 
 export default function RootLayout({ children }) {
   return (
-      <html lang="en">
+    <html lang="en">
       <head>
-      <link rel="icon" href="/assets/img/favicon.ico" />
-        </head>
+        <link rel="icon" href="/assets/img/favicon.ico" />
+      </head>
       <body className="inter.className max-w-10xl mx-auto">
-        
+
         <GlobalProvider>
-        <header>
-          <Navbar img={img} />
-        </header>
-        
-        <main>
-        <ToastContainer/>
-          {children}
-        </main>
-        
+          <header>
+            <Navbar img={img} />
+          </header>
+
+          <main>
+            <ToastContainer />
+            {children}
+          </main>
+
+        </GlobalProvider>
         <footer>
-          <Footer img={img}/>
+          <Footer img={img} />
         </footer>
         <div>
           <Link href="https://t.me/legaldarkbuzzen" target='_blank' className="fixed bottom-5 right-6 animate-bounce">
-          <Image
-          width={50}
-          height={50}
-          alt='telegram'
-          src="/assets/img/telegram.png"
-          />
+            <Image
+              width={50}
+              height={50}
+              alt='telegram'
+              src="/assets/img/telegram.png"
+            />
           </Link>
         </div>
-          </GlobalProvider>
       </body>
     </html>
   )

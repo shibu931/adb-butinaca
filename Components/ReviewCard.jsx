@@ -108,6 +108,7 @@ const ReviewCard = ({id}) => {
         console.log(productReviews);
     },[productReviews])
     useEffect(()=>{
+        console.log("Is Authenticated",isAuthenticated);
         getReviews()
     },[])
     return (
