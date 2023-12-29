@@ -72,8 +72,10 @@ export const AuthProvider = ({ children }) => {
 
     const getUserDetails = async () => {
         try {
+            console.log("In getting user details function");
             const authResponse = await axios.get('/api/check-auth');
             const isAuthenticated = authResponse.data.isAuthenticated;
+            console.log(isAuthenticated);
 
             await Promise.all([
                 setAuthState((prevState) => ({ ...prevState, isAuthenticated })),
