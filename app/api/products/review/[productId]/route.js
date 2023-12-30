@@ -1,4 +1,3 @@
-
 import Product from "/models/product";
 import connectToDB from "/utils/dbConnect";
 import { getResponseMessage } from "/utils/responseMessage";
@@ -16,7 +15,7 @@ export async function POST(request,{params}) {
         products.reviews.push(review)
         const response = await products.save()
         if(products)
-            return NextResponse.json(products,{status:201})
+            return NextResponse.json(response,{status:201})
         else
         return getResponseMessage("No Product Found",404,false)
     } catch (error) {

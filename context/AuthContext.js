@@ -114,7 +114,7 @@ export const AuthProvider = ({ children }) => {
     
     useEffect(() => {
         getAddress();
-    }, [authState.user._id]);
+    }, [authState.user]);
 
     return (
         <AuthContext.Provider

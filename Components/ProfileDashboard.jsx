@@ -27,6 +27,7 @@ const ProfileDashboard = ({ openTab }) => {
                 const c = countriesArray.find((country) => country.code === data.country);
                 setSelectedCountry(c.name);
                 setAddress({ ...address, city: data.city, state: data.region });
+                if(!address?.country) setAddress({...address,country:selectedCountry})
             }
         } catch (error) {
             console.error('Error fetching IP information:', error);

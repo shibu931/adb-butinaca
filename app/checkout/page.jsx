@@ -46,6 +46,7 @@ const Checkout = () => {
           const c = countriesArray.filter((country) => country.code === data.country)
           setSelectedCountry(c[0].name)
           setAddress({ ...address, city: data.city, state: data.region })
+          if(!address?.country) setAddress({...address,country:selectedCountry})
         }
           setSelectedCountry(address.country)
       } catch (error) {

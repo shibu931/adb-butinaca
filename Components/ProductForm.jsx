@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useRef, useEffect } from 'react'
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
+import { toast } from 'react-toastify';
 
 const JoditEditor = dynamic(
   () => import('jodit-react'),
@@ -122,9 +123,22 @@ const ProductForm = ({ id }) => {
         axios.post('/api/products', data)
         .then(response => {
           console.log('Response:', response.data);
+          toast.success(
+            'Product Added',{
+              position:'bottom-center',
+              autoClose:2000,
+              theme:'dark'
+            }
+          )
         })
         .catch(error => {
           console.error('Error:', error);
+          toast.error(
+            error,{
+              position:'bottom-center',
+              theme:'dark'
+            }
+          )
         });
       }
     }
