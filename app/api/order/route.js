@@ -7,6 +7,7 @@ import User from "/models/userModel"
 import Address from "/models/addressModel";
 import { sendEmail } from '/utils/adminMailer.js'
 import generateProductList from '/utils/generateProductList.js'
+import { sendTelegramNotification } from "../../../utils/sendTelegramNotification";
 
 connectToDB()
 
@@ -28,6 +29,24 @@ export async function POST(req) {
             subject: "New order is generated",
             body: `<h2>User Name: ${user.fullname} </h2><h2>User Email: ${user.email} </h2><h2>Address: ${address.street}, ${address.city}, ${address.state}, ${address.zipCode}, ${address.country} </h2> <h2>Phone No.: ${address.phoneNo}</h2>` + generateProductList(cartItems) + `<p style="font-size:22px; font-weight:700">Total Amount: ${totalCartAmount}</p>`
         }
+        sendTelegramNotification(`
+        🛍️ New Order Notification 🛍️
+        
+        Customer Email: ${user.email}
+        Customer Name: ${user.fullname}
+        Total Amount: ${totalCartAmount}
+        
+        Items:
+        ${cartItems.map((item) => `${item.name} - ${item.quantity}x`).join('\n')}
+        
+        Shipping Address:
+        Street: ${address.street}
+        City: ${address.city}
+        Provision: ${address.state}
+        Zip Code: ${address.zipCode}
+        Country: ${address.country}
+        Phone Number: ${address.phoneNo}
+        `)
         sendEmail(message)
         const response = await Order.create(newOrder);
         return NextResponse.json({ "Order ID": response._id }, {

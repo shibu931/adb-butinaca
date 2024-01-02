@@ -76,7 +76,9 @@ const ReviewCard = ({id}) => {
         e.preventDefault()
         try {
             setLoading(true)
-            setReview({...review,rating:stars})
+            setReview(review => {
+                return { ...review, rating: stars };
+              });
             const response = await axios.post(`/api/products/review/${id}`,review)
             if(response.status==201){
                 toast.success(

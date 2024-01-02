@@ -30,7 +30,7 @@ const Footer = ({ img }) => {
     const resposne = await axios.get(`/api/newsletters/${email}`)
     if (resposne.status == 201) {
       toast.success(
-        'Login Successfull redirecting',{
+        'Subscribed to newsletter successful',{
           position:'bottom-center',
           autoClose:2000,
           theme:'dark'

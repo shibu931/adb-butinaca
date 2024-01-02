@@ -114,7 +114,7 @@ const Checkout = () => {
           </div>
         </Dialog>
       </Transition>
-      <div className='xl:w-[800px] md:w-[600px] w-full '>
+      <div className='xl:w-[800px] md:w-3/5 sm:w-full mb-4 md:mb-0 w-full '>
         <div className='bg-slate-900 rounded p-2 md:me-5 md:p-5 xl:p-10'>
           <h2 className='text-2xl font-bold ps-5 mb-5 text-center'>Shipping Address</h2>
           <form action="">
@@ -192,7 +192,7 @@ const Checkout = () => {
           </form>
         </div>
       </div>
-      <div className='xl:w-[400px] md:w-[300px] bg-slate-900 flex justify-between flex-col lg:py-10 lg:px-4 p-3 rounded w-full'>
+      <div className='xl:w-[400px] md:w-2/5 sm:w-full bg-slate-900 flex justify-between flex-col lg:py-10 lg:px-4 p-3 rounded w-full'>
         <div>
           <h2 className='text-3xl font-bold text-center'>Checkout</h2>
           <hr className='mt-2 mb-5' />
