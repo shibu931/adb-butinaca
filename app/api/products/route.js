@@ -35,6 +35,7 @@ export async function POST(req) {
         }
         
     } catch (error) {
+        console.log(error);
         return getResponseMessage("Failed to create Product",500,false)
     }
 }

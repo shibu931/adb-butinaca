@@ -18,3 +18,11 @@ export async function GET(request,{params}) {
         return getResponseMessage("Failed to Get Products",500,false)
     }
 }
+
+export async function DELETE(){
+    try {
+        
+    } catch (error) {
+        
+    }
+}
