@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import axios from 'axios';
  
 export async function middleware(request) {
+  console.log("Middleware Running");
     const path = request.nextUrl.pathname
     const isPublicPath = ['/login', '/signup', '/verifyemail'].includes(path);
     const isLoggedIn = Boolean(request.cookies.get('token')?.value);
@@ -19,7 +20,7 @@ export async function middleware(request) {
 
     if (path === '/admin' && isLoggedIn) {
       if (decodedToken.email !== 'itzshippu@gmail.com') {
-        return NextResponse.redirect(new URL('/admin', request.nextUrl));
+        return NextResponse.redirect(new URL('/profile', request.nextUrl));
       }
   }
 

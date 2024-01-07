@@ -34,7 +34,7 @@ const AdminPanel = ({pathname,id}) => {
       </div>
       <div className="col-span-6">
         <div className='bg-slate-900 py-10 w-full rounded px-10'>
-          <button className='px-4 py-2 btn-primary rounded font-semibold' onClick={(e) => { e.preventDefault(); setOpenTab('/add-product') }}>Add Product</button>
+          <button className='px-4 py-2 btn-primary rounded font-semibold' onClick={(e) => { e.preventDefault(); setOpenTab('add-product') }}>Add Product</button>
           <button className='px-4 py-2 btn-primary rounded font-semibold ms-2' onClick={(e) => { e.preventDefault(); setOpenTab('') }}>View Product</button>
           {
             openTab === '' ?
@@ -43,7 +43,7 @@ const AdminPanel = ({pathname,id}) => {
                   <ProductList product={product} />
                 </li>
               </ul> :
-              openTab === '/add-product' ? 
+              openTab === 'add-product' ? 
                 <ProductForm />
               : 
               openTab === 'update-product' ? 

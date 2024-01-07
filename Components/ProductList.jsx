@@ -11,11 +11,26 @@ const ProductList = ({ product }) => {
   }
   const deleteProduct = (id)=>{
     const response = axios.delete(`/api/products/${id}`)
-    console.log(response)
+    if(response.status ==200){
+      toast.success(
+        'Product Deleted',{
+          position:'bottom-center',
+          autoClose:2000,
+          theme:'dark'
+        }
+      )
+      const filteredProduct = data.filter(product => product._id !== id);
+      setData(filteredProduct)
+    }else{
+      toast.error(
+        'Something Went Wrong',{
+          position:'bottom-center',
+          autoClose:2000,
+          theme:'dark'
+        }
+      )
+    }
   }
-  useEffect(() => {
-    console.log(data)
-  }, [data])
   useEffect(() => {
     fetchData()
   }, [])

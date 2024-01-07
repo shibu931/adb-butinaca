@@ -46,7 +46,8 @@ export async function PUT(req){
         const user = await User.findById(userId)
         if(user.isAdmin){
         const productData = await req.json()
-        const updatedProduct = await Product.findOneAndUpdate({ slug: productData.slug }, productData, { new: true })
+        console.log(productData);
+        const updatedProduct = await Product.findByIdAndUpdate(productData._id, productData, { new: true })
         return NextResponse.json({ "Product ID": updatedProduct._id }, {
             status: 201,
             statusText: "Product Updated"

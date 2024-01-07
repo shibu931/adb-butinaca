@@ -114,15 +114,26 @@ const ProductForm = ({ id }) => {
       if(id){
         axios.put('/api/products', data)
         .then(response => {
-          console.log('Response:', response.data);
+          toast.success(
+            'Product Updated',{
+              position:'bottom-center',
+              autoClose:2000,
+              theme:'dark'
+            }
+          )
         })
         .catch(error => {
           console.error('Error:', error);
+          toast.error(
+            error,{
+              position:'bottom-center',
+              theme:'dark'
+            }
+          )
         });
       }else{
         axios.post('/api/products', data)
         .then(response => {
-          console.log('Response:', response.data);
           toast.success(
             'Product Added',{
               position:'bottom-center',
