@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
           <Footer img={img} />
         </footer>
         <div>
-          <Link href="https://t.me/legaldarkbuzzen" target='_blank' className="fixed bottom-5 right-6 animate-bounce">
+          <Link href="https://t.me/team10extract" target='_blank' className="fixed bottom-5 right-6 animate-bounce">
             <Image
               width={50}
               height={50}
