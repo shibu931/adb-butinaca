@@ -3,36 +3,60 @@ import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import ProductDescription from '/Components/ProductDescription.jsx'
 
 const ProductPage = ({ params }) => {
   const [products, setProducts] = useState();
+  const [description, setDescription] = useState({
+    _id:'',
+    slug:'',
+    title:'',
+    description:'',
+    category:''
+  });
+  const [showMessage,setShowMessage] = useState(false);
   const fetchData = async () => {
     try {
       if (params.slug) {
         var response = await axios.get(`/api/products/${params.slug}`)
       }
       const resData = response.data
-      if(resData[0])setProducts(resData)
+      if(resData.dataType === 'products'){
+        setProducts(resData.data)
+      }else{
+        setDescription({...resData.data})
+      }
     } catch (error) {
-      console.log(error.response.data.message)
+      setShowMessage(true)
     }
   }
   useEffect(() => {
     fetchData()
   }, [])
   return (
-    <div className='flex xl:mx-10 flex-wrap justify-evenly min-h-80'>
+        <>
         {
-          products ?  products.map((product,index)=>(<ProductCard product={product} key={index}/>))
-          :
+          products ?  
+          <div className='flex xl:mx-10 flex-wrap justify-evenly min-h-80'>
+            {
+              products.map((product,index)=>(<ProductCard product={product} key={index}/>))
+            }
+          </div>
+          : description.slug ?
           (
-            <div className='flex flex-col justify-center'>
-              <h2 className='text-3xl md:text-4xl font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>Currently, We don't have products in this category</span></h2>
-              <h4 className='text-xl md:text-2xl mt-2 text-center font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>Products will be added soon!</span></h4>
+            <div className='xl:mx-10 mt-10'>
+              <ProductDescription description={description.description} title={description.title} />
             </div>
-          )
+          ): showMessage ? (
+            <div className='xl:mx-10'>
+              <div className='flex flex-col justify-center h-80'>
+                <h2 className='text-3xl md:text-4xl font-medium text-center'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>Currently, We don't have products in this category</span></h2>
+                <h4 className='text-xl md:text-2xl mt-2 text-center font-medium'><span className='bg-gradient-to-r to-purple-500 from-violet-800 text-transparent bg-clip-text'>Products will be added soon!</span></h4>
+              </div>
+            </div>
+          ):''
         }
-    </div>
+        </>
   )
 }
 

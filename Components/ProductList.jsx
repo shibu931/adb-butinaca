@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
-const ProductList = ({ product }) => {
+const ProductList = ({ setId, setOpenTab }) => {
   const [data, setData] = useState();
   const fetchData = async () => {
     const response = await axios.get('/api/products')
@@ -49,9 +49,9 @@ const ProductList = ({ product }) => {
             <span className='text-xs'>{item.category}</span>
           </div>
           <div className='ms-auto my-auto'>
-            <Link href={`/admin/update-product?id=${item.slug}`} className='mx-2 bg-green-700 px-4 rounded py-2'>
+            <button onClick={()=>{setId(item.slug);setOpenTab('update-product')}} className='mx-2 bg-green-700 px-4 rounded py-2'>
               Edit
-            </Link>
+            </button>
             <button onClick={()=>{deleteProduct(item._id)}} className='mx-2 bg-red-700 px-4 rounded py-2'>
               Delete
             </button>

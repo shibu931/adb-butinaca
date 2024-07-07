@@ -178,7 +178,7 @@ const ProductCard = ({product}) => {
                         <Tbody>
                           <Tr className='align-top'>
                             <Td ><strong>Shipping: </strong></Td>
-                            <Td>Room Temperature in <br className='md:hidden' />continental US; may vary<br className='md:hidden' /> elsewhere</Td>
+                            <Td>We ship to all over europe</Td>
                           </Tr>
                           <Tr>
                             <Td><strong>Storage: </strong></Td>
